@@ -1,10 +1,10 @@
-
 import { useState } from "react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ProjectCard from "@/components/project/ProjectCard";
 import PartnershipSuggestion from "@/components/dashboard/PartnershipSuggestion";
+import { Button } from "@/components/ui/button";
 
 // Mock data for the dashboard
 const myProjects = [
@@ -35,7 +35,7 @@ const matchedPartnerships = [
     logo: "",
     partnershipType: ["Technical Integration", "Liquidity"],
     matchScore: 92,
-    status: "pending",
+    status: "pending" as "pending" | "accepted" | "rejected",
   },
   {
     id: "102",
@@ -45,7 +45,7 @@ const matchedPartnerships = [
     logo: "",
     partnershipType: ["Technical Integration", "Security"],
     matchScore: 87,
-    status: "accepted",
+    status: "accepted" as "pending" | "accepted" | "rejected",
   },
   {
     id: "103",
@@ -55,7 +55,7 @@ const matchedPartnerships = [
     logo: "",
     partnershipType: ["Technical Integration", "Research"],
     matchScore: 75,
-    status: "rejected",
+    status: "rejected" as "pending" | "accepted" | "rejected",
   },
 ];
 
