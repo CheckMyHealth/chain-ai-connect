@@ -15,7 +15,7 @@ const Footer = () => {
                   <CircleCheck className="h-4 w-4 text-blockchain-500" />
                 </span>
               </div>
-              <span className="font-display text-xl font-bold">ChainMatch</span>
+              <span className="font-display text-xl font-bold">ChainMatch.AI</span>
             </Link>
             <p className="text-muted-foreground">
               The AI-powered platform for blockchain project partnerships. Connect with potential partners and grow your ecosystem.
@@ -57,7 +57,7 @@ const Footer = () => {
         </div>
         <div className="mt-10 border-t border-border pt-6 text-center">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} ChainMatch. All rights reserved.
+            © {new Date().getFullYear()} ChainMatch.AI. All rights reserved.
           </p>
         </div>
       </div>

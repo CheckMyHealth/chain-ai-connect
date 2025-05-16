@@ -74,7 +74,7 @@ const HowItWorks = () => {
           <div className="container">
             <div className="max-w-3xl mx-auto text-center">
               <h1 className="font-display text-4xl md:text-5xl font-bold mb-6">
-                How ChainMatch Works
+                How ChainMatch.AI Works
               </h1>
               <p className="text-lg md:text-xl text-white/80 mb-8">
                 Our platform uses advanced AI to connect blockchain projects with
@@ -188,7 +188,7 @@ const HowItWorks = () => {
                   Frequently Asked Questions
                 </h2>
                 <p className="text-lg text-muted-foreground">
-                  Got questions about how ChainMatch works? We've got answers.
+                  Got questions about how ChainMatch.AI works? We've got answers.
                 </p>
               </div>
 

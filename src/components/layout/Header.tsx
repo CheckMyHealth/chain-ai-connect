@@ -14,7 +14,7 @@ const Header = () => {
               <CircleCheck className="h-4 w-4 text-blockchain-500" />
             </span>
           </div>
-          <span className="font-display text-xl font-bold">ChainMatch</span>
+          <span className="font-display text-xl font-bold">ChainMatch.AI</span>
         </Link>
         <nav className="hidden md:flex items-center gap-6 text-sm">
           <Link to="/explore" className="font-medium transition-colors hover:text-blockchain-500">
