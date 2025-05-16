@@ -3,6 +3,7 @@ import React, { createContext, useContext, useState } from 'react';
 import { useAccount, useConnect, useDisconnect, useSignMessage } from 'wagmi';
 import { toast } from '@/hooks/use-toast';
 import { type SignableMessage } from 'viem';
+import { injected } from 'wagmi/connectors';
 
 type Web3ContextType = {
   isConnected: boolean;
@@ -26,7 +27,7 @@ export const Web3Provider: React.FC<{ children: React.ReactNode }> = ({ children
   const connectWallet = async () => {
     try {
       setConnecting(true);
-      await connectAsync({ connector: { id: 'injected' } });
+      await connectAsync({ connector: injected() });
       toast({
         title: "Wallet connected",
         description: "Your wallet has been connected successfully."

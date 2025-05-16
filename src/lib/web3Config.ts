@@ -1,5 +1,5 @@
 
-import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi';
+import { createConfig } from 'wagmi';
 import { mainnet, sepolia } from 'wagmi/chains';
 
 // Get projectId from environment variable
@@ -9,25 +9,12 @@ const projectId = import.meta.env.VITE_WALLETCONNECT_PROJECT_ID || '04e7a5a0c0b5
 const chains = [mainnet, sepolia];
 
 // Create wagmi config
-export const config = defaultWagmiConfig({
-  projectId,
+export const config = createConfig({
   chains,
-  metadata: {
-    name: 'ChainMatch.AI',
-    description: 'AI-Powered Blockchain Partnership Platform',
-    url: 'https://chainmatch.ai',
-    icons: ['https://avatars.githubusercontent.com/u/37784886'],
+  transports: {
+    [mainnet.id]: http(),
+    [sepolia.id]: http(),
   },
 });
 
-// Create web3modal instance
-export const web3Modal = createWeb3Modal({
-  wagmiConfig: config,
-  projectId,
-  chains,
-  themeMode: 'light',
-  themeVariables: {
-    '--w3m-accent': 'rgb(var(--blockchain-500))',
-    '--w3m-border-radius-master': '0.5rem',
-  },
-});
+import { http } from 'wagmi/transports';
