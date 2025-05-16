@@ -1,7 +1,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Session } from '@supabase/supabase-js';
-import { supabase } from '@/lib/supabase';
+import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { toast } from '@/hooks/use-toast';
 
 type AuthContextType = {
@@ -11,6 +11,7 @@ type AuthContextType = {
   signUpWithEmail: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
   loading: boolean;
+  isConfigured: boolean;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -19,45 +20,84 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [isConfigured, setIsConfigured] = useState(false);
 
   useEffect(() => {
-    const fetchSession = async () => {
-      setLoading(true);
+    const checkConfig = () => {
+      const configured = isSupabaseConfigured();
+      setIsConfigured(configured);
       
-      // Get current session
-      const { data: { session }, error } = await supabase.auth.getSession();
-      
-      if (error) {
-        console.error('Error fetching session:', error);
+      if (!configured) {
+        console.warn('Supabase credentials not properly configured. Authentication features will not work correctly.');
         toast({
-          title: 'Authentication Error',
-          description: 'Failed to retrieve authentication session.',
+          title: 'Authentication Notice',
+          description: 'Supabase credentials are not configured. Some features may not work properly.',
           variant: 'destructive',
         });
-      } else {
-        setSession(session);
-        setUser(session?.user ?? null);
+        setLoading(false);
+        return false;
       }
+      return true;
+    };
+
+    const fetchSession = async () => {
+      if (!checkConfig()) return;
       
-      setLoading(false);
+      setLoading(true);
+      
+      try {
+        // Get current session
+        const { data: { session }, error } = await supabase.auth.getSession();
+        
+        if (error) {
+          console.error('Error fetching session:', error);
+          toast({
+            title: 'Authentication Error',
+            description: 'Failed to retrieve authentication session.',
+            variant: 'destructive',
+          });
+        } else {
+          setSession(session);
+          setUser(session?.user ?? null);
+        }
+      } catch (err) {
+        console.error('Session retrieval error:', err);
+      } finally {
+        setLoading(false);
+      }
     };
 
     // Call the function
     fetchSession();
 
     // Set up listener for auth state changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, currentSession) => {
-      setSession(currentSession);
-      setUser(currentSession?.user ?? null);
-      setLoading(false);
-    });
+    let subscription;
+    if (isSupabaseConfigured()) {
+      const { data } = supabase.auth.onAuthStateChange((event, currentSession) => {
+        setSession(currentSession);
+        setUser(currentSession?.user ?? null);
+        setLoading(false);
+      });
+      subscription = data.subscription;
+    }
 
     return () => {
-      subscription.unsubscribe();
+      if (subscription) {
+        subscription.unsubscribe();
+      }
     };
   }, []);
 
   const signInWithEmail = async (email: string, password: string) => {
+    if (!isConfigured) {
+      toast({
+        title: 'Authentication Error',
+        description: 'Supabase is not configured properly. Please set up your environment variables.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     try {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
@@ -76,6 +116,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const signUpWithEmail = async (email: string, password: string) => {
+    if (!isConfigured) {
+      toast({
+        title: 'Authentication Error',
+        description: 'Supabase is not configured properly. Please set up your environment variables.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     try {
       const { error } = await supabase.auth.signUp({ email, password });
       if (error) throw error;
@@ -94,6 +143,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const signOut = async () => {
+    if (!isConfigured) return;
+
     try {
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
@@ -117,6 +168,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     signUpWithEmail,
     signOut,
     loading,
+    isConfigured,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
