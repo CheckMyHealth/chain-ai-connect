@@ -1,7 +1,8 @@
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { useAccount, useConnect, useDisconnect, useSignMessage } from 'wagmi';
 import { toast } from '@/hooks/use-toast';
+import { type SignableMessage } from 'viem';
 
 type Web3ContextType = {
   isConnected: boolean;
@@ -25,7 +26,7 @@ export const Web3Provider: React.FC<{ children: React.ReactNode }> = ({ children
   const connectWallet = async () => {
     try {
       setConnecting(true);
-      await connectAsync();
+      await connectAsync({ connector: { id: 'injected' } });
       toast({
         title: "Wallet connected",
         description: "Your wallet has been connected successfully."
@@ -58,8 +59,14 @@ export const Web3Provider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const signMessage = async (message: string) => {
+    if (!address) return undefined;
+    
     try {
-      const signature = await signMessageAsync({ message });
+      const signableMessage: SignableMessage = message;
+      const signature = await signMessageAsync({ 
+        account: address,
+        message: signableMessage 
+      });
       return signature;
     } catch (error: any) {
       toast({
