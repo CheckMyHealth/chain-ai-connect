@@ -92,7 +92,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       });
       
       // Auth state change listener will handle updating the context
-      return session;
     } catch (error) {
       console.error('Sign in error:', error);
       throw error;
