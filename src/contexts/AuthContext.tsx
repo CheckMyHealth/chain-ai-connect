@@ -1,174 +1,147 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { Session } from '@supabase/supabase-js';
-import { supabase, isSupabaseConfigured } from '@/lib/supabase';
+import { Session, User } from '@supabase/supabase-js';
+import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
+import { Profile } from '@/types/database.types';
+import { authService } from '@/services/authService';
 
 type AuthContextType = {
   session: Session | null;
-  user: any;
+  user: User | null;
+  profile: Profile | null;
   signInWithEmail: (email: string, password: string) => Promise<void>;
   signUpWithEmail: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
   loading: boolean;
-  isConfigured: boolean;
+  profileLoading: boolean;
+  updateProfile: (profileData: Partial<Profile>) => Promise<Profile>;
+  refreshProfile: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [session, setSession] = useState<Session | null>(null);
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
-  const [isConfigured, setIsConfigured] = useState(false);
+  const [profileLoading, setProfileLoading] = useState(false);
+
+  // Function to fetch user profile
+  const fetchUserProfile = async (userId: string) => {
+    try {
+      setProfileLoading(true);
+      const profile = await authService.getProfile();
+      setProfile(profile);
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+    } finally {
+      setProfileLoading(false);
+    }
+  };
+
+  // Refresh the user profile data
+  const refreshProfile = async () => {
+    if (user) {
+      await fetchUserProfile(user.id);
+    }
+  };
 
   useEffect(() => {
-    const checkConfig = () => {
-      const configured = isSupabaseConfigured();
-      setIsConfigured(configured);
-      
-      if (!configured) {
-        console.warn('Supabase credentials not properly configured. Authentication features will not work correctly.');
-        toast({
-          title: 'Authentication Notice',
-          description: 'Supabase credentials are not configured. Some features may not work properly.',
-          variant: 'destructive',
-        });
-        setLoading(false);
-        return false;
-      }
-      return true;
-    };
-
-    const fetchSession = async () => {
-      if (!checkConfig()) return;
-      
-      setLoading(true);
-      
-      try {
-        // Get current session
-        const { data: { session }, error } = await supabase.auth.getSession();
-        
-        if (error) {
-          console.error('Error fetching session:', error);
-          toast({
-            title: 'Authentication Error',
-            description: 'Failed to retrieve authentication session.',
-            variant: 'destructive',
-          });
-        } else {
-          setSession(session);
-          setUser(session?.user ?? null);
-        }
-      } catch (err) {
-        console.error('Session retrieval error:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    // Call the function
-    fetchSession();
-
-    // Set up listener for auth state changes
-    let subscription;
-    if (isSupabaseConfigured()) {
-      const { data } = supabase.auth.onAuthStateChange((event, currentSession) => {
+    // Set up auth state listener FIRST
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, currentSession) => {
         setSession(currentSession);
         setUser(currentSession?.user ?? null);
-        setLoading(false);
-      });
-      subscription = data.subscription;
-    }
+        
+        // Defer profile fetch to avoid auth state conflicts
+        if (currentSession?.user) {
+          setTimeout(() => {
+            fetchUserProfile(currentSession.user.id);
+          }, 0);
+        } else {
+          setProfile(null);
+        }
+      }
+    );
+
+    // THEN check for existing session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+      
+      if (session?.user) {
+        fetchUserProfile(session.user.id);
+      }
+      
+      setLoading(false);
+    });
 
     return () => {
-      if (subscription) {
-        subscription.unsubscribe();
-      }
+      subscription.unsubscribe();
     };
   }, []);
 
   const signInWithEmail = async (email: string, password: string) => {
-    if (!isConfigured) {
-      toast({
-        title: 'Authentication Error',
-        description: 'Supabase is not configured properly. Please set up your environment variables.',
-        variant: 'destructive',
-      });
-      return;
-    }
-
     try {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) throw error;
+      const { session } = await authService.signIn(email, password);
       toast({
         title: 'Welcome back!',
         description: 'You have successfully signed in.',
       });
-    } catch (error: any) {
-      toast({
-        title: 'Sign in failed',
-        description: error.message || 'An error occurred during sign in.',
-        variant: 'destructive',
-      });
+      
+      // Auth state change listener will handle updating the context
+      return session;
+    } catch (error) {
+      console.error('Sign in error:', error);
       throw error;
     }
   };
 
   const signUpWithEmail = async (email: string, password: string) => {
-    if (!isConfigured) {
-      toast({
-        title: 'Authentication Error',
-        description: 'Supabase is not configured properly. Please set up your environment variables.',
-        variant: 'destructive',
-      });
-      return;
-    }
-
     try {
-      const { error } = await supabase.auth.signUp({ email, password });
-      if (error) throw error;
+      await authService.signUp(email, password);
       toast({
         title: 'Registration successful',
         description: 'Please check your email to confirm your account.',
       });
-    } catch (error: any) {
-      toast({
-        title: 'Registration failed',
-        description: error.message || 'An error occurred during registration.',
-        variant: 'destructive',
-      });
+    } catch (error) {
+      console.error('Sign up error:', error);
       throw error;
     }
   };
 
   const signOut = async () => {
-    if (!isConfigured) return;
-
     try {
-      const { error } = await supabase.auth.signOut();
-      if (error) throw error;
+      await authService.signOut();
       toast({
         title: 'Signed out',
         description: 'You have been successfully signed out.',
       });
-    } catch (error: any) {
-      toast({
-        title: 'Sign out failed',
-        description: error.message || 'An error occurred during sign out.',
-        variant: 'destructive',
-      });
+    } catch (error) {
+      console.error('Sign out error:', error);
+      throw error;
     }
+  };
+
+  const updateProfile = async (profileData: Partial<Profile>) => {
+    const updatedProfile = await authService.updateProfile(profileData);
+    setProfile(updatedProfile);
+    return updatedProfile;
   };
 
   const value = {
     session,
     user,
+    profile,
     signInWithEmail,
     signUpWithEmail,
     signOut,
     loading,
-    isConfigured,
+    profileLoading,
+    updateProfile,
+    refreshProfile
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

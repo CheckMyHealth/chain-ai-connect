@@ -50,7 +50,7 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const ProjectForm = () => {
-  const { user, isConfigured } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedPartnershipTypes, setSelectedPartnershipTypes] = useState<string[]>([]);
@@ -82,7 +82,17 @@ const ProjectForm = () => {
 
     setIsSubmitting(true);
     try {
-      const project = await projectService.createProject(data);
+      const project = await projectService.createProject({
+        title: data.title,
+        description: data.description,
+        company: data.company,
+        website: data.website || null,
+        blockchain: data.blockchain,
+        partnership_type: data.partnership_type,
+        requirements: data.requirements,
+        benefits: data.benefits,
+        logo_url: null
+      });
       
       toast({
         title: 'Project submitted',
@@ -134,15 +144,6 @@ const ProjectForm = () => {
       form.setValue('partnership_type', currentValues.filter(type => type !== value));
     }
   };
-
-  if (!isConfigured) {
-    return (
-      <div className="text-center p-8 border rounded-lg bg-red-50">
-        <h3 className="text-lg font-semibold text-red-700">Configuration Error</h3>
-        <p className="mt-2">Supabase is not properly configured. Please set up your environment variables.</p>
-      </div>
-    );
-  }
 
   return (
     <Form {...form}>

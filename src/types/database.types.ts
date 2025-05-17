@@ -37,4 +37,5 @@ export type Match = {
   status: string;
   created_at: string;
   updated_at: string;
+  profiles?: Profile;
 }

@@ -14,7 +14,8 @@ export const projectService = {
       .insert({
         ...projectData,
         user_id: user.data.user.id,
-        status: 'pending'
+        status: 'pending',
+        logo_url: null // Add this explicitly to fix the TypeScript error
       })
       .select()
       .single();
@@ -93,6 +94,16 @@ export const projectService = {
       .eq('id', matchId)
       .select();
 
+    if (error) throw error;
+    return data;
+  },
+
+  async getAllProjects() {
+    const { data, error } = await supabase
+      .from('projects')
+      .select('*')
+      .order('created_at', { ascending: false });
+    
     if (error) throw error;
     return data;
   }

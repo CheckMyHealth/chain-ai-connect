@@ -18,9 +18,11 @@ type Project = {
 interface ProjectCardProps {
   project: Project;
   isMatch?: boolean;
+  onAccept?: (id: string) => void;
+  onDecline?: (id: string) => void;
 }
 
-const ProjectCard = ({ project, isMatch = false }: ProjectCardProps) => {
+const ProjectCard = ({ project, isMatch = false, onAccept, onDecline }: ProjectCardProps) => {
   return (
     <Card className="blockchain-card overflow-hidden group">
       <CardHeader className="p-0">
@@ -61,12 +63,20 @@ const ProjectCard = ({ project, isMatch = false }: ProjectCardProps) => {
             View Details
           </Button>
         </Link>
-        {isMatch && project.status === "pending" && (
+        {isMatch && project.status === "pending" && onAccept && onDecline && (
           <div className="flex gap-2">
-            <Button size="sm" className="bg-blockchain-500 hover:bg-blockchain-600">
+            <Button 
+              size="sm" 
+              className="bg-blockchain-500 hover:bg-blockchain-600"
+              onClick={() => onAccept(project.id)}
+            >
               Accept
             </Button>
-            <Button size="sm" variant="outline">
+            <Button 
+              size="sm" 
+              variant="outline"
+              onClick={() => onDecline(project.id)}
+            >
               Decline
             </Button>
           </div>
