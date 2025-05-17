@@ -101,7 +101,7 @@ const Explore = () => {
                     <SelectValue placeholder="Partnership Type" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Types</SelectItem>
+                    <SelectItem value="all">All Types</SelectItem>
                     <SelectItem value="investment">Investment</SelectItem>
                     <SelectItem value="technical">Technical Collaboration</SelectItem>
                     <SelectItem value="marketing">Marketing</SelectItem>

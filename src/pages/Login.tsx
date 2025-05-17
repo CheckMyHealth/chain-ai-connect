@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Wallet, Mail, Loader2, AlertCircle } from 'lucide-react';
+import { Wallet, Mail, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -22,7 +22,6 @@ import { useWeb3 } from '@/contexts/Web3Context';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { toast } from '@/hooks/use-toast';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 const authFormSchema = z.object({
   email: z.string().email({ message: 'Please enter a valid email address' }),
@@ -37,7 +36,7 @@ const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
-  const { signInWithEmail, signUpWithEmail, isConfigured } = useAuth();
+  const { signInWithEmail, signUpWithEmail } = useAuth();
   const { connectWallet, connecting } = useWeb3();
 
   const form = useForm<AuthFormValues>({
@@ -49,15 +48,6 @@ const Login = () => {
   });
 
   const onSubmit = async (data: AuthFormValues) => {
-    if (!isConfigured) {
-      toast({
-        title: 'Authentication Error',
-        description: 'Supabase is not configured properly. Please set up your environment variables.',
-        variant: 'destructive',
-      });
-      return;
-    }
-    
     setIsSubmitting(true);
     try {
       if (isLogin) {
@@ -72,14 +62,27 @@ const Login = () => {
       }
     } catch (error) {
       console.error('Authentication error:', error);
+      toast({
+        title: 'Authentication failed',
+        description: error instanceof Error ? error.message : 'An unknown error occurred',
+        variant: 'destructive',
+      });
     } finally {
       setIsSubmitting(false);
     }
   };
 
   const handleWalletConnect = async () => {
-    await connectWallet();
-    navigate('/dashboard');
+    try {
+      await connectWallet();
+      navigate('/dashboard');
+    } catch (error) {
+      toast({
+        title: 'Connection failed',
+        description: 'Failed to connect wallet. Please try again.',
+        variant: 'destructive',
+      });
+    }
   };
 
   return (
@@ -87,17 +90,6 @@ const Login = () => {
       <Header />
       <main className="flex-grow flex items-center justify-center py-16">
         <div className="w-full max-w-md p-8 space-y-8 bg-white shadow-lg rounded-xl border">
-          {!isConfigured && (
-            <Alert variant="destructive" className="mb-4">
-              <AlertCircle className="h-4 w-4" />
-              <AlertTitle>Configuration Error</AlertTitle>
-              <AlertDescription>
-                Supabase credentials are not configured. Email authentication will not work.
-                Please set the VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY environment variables.
-              </AlertDescription>
-            </Alert>
-          )}
-          
           <div className="text-center">
             <h1 className="text-2xl font-bold tracking-tight">
               {isLogin ? 'Sign in to ChainMatch' : 'Create your account'}
@@ -152,7 +144,7 @@ const Login = () => {
                   <Button
                     type="submit"
                     className="w-full bg-blockchain-500 hover:bg-blockchain-600"
-                    disabled={isSubmitting || !isConfigured}
+                    disabled={isSubmitting}
                   >
                     {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     {isLogin ? 'Sign In' : 'Create Account'}
