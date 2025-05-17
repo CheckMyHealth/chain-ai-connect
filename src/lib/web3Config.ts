@@ -1,6 +1,5 @@
 
-import { createConfig } from 'wagmi';
-import { http } from 'wagmi/http';
+import { createConfig, http } from 'wagmi';
 import { mainnet, sepolia } from 'wagmi/chains';
 
 // Get projectId from environment variable
