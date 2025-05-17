@@ -9,7 +9,134 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      matches: {
+        Row: {
+          created_at: string
+          id: string
+          match_score: number
+          project_id: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          match_score: number
+          project_id: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          match_score?: number
+          project_id?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "matches_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          blockchain_preference: string[] | null
+          company_name: string | null
+          created_at: string
+          full_name: string | null
+          id: string
+          partnership_interests: string[] | null
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          blockchain_preference?: string[] | null
+          company_name?: string | null
+          created_at?: string
+          full_name?: string | null
+          id: string
+          partnership_interests?: string[] | null
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          blockchain_preference?: string[] | null
+          company_name?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          partnership_interests?: string[] | null
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
+      projects: {
+        Row: {
+          benefits: string
+          blockchain: string
+          company: string
+          created_at: string
+          description: string
+          id: string
+          logo_url: string | null
+          partnership_type: string[]
+          requirements: string
+          status: string
+          title: string
+          updated_at: string
+          user_id: string
+          website: string | null
+        }
+        Insert: {
+          benefits: string
+          blockchain: string
+          company: string
+          created_at?: string
+          description: string
+          id?: string
+          logo_url?: string | null
+          partnership_type: string[]
+          requirements: string
+          status?: string
+          title: string
+          updated_at?: string
+          user_id: string
+          website?: string | null
+        }
+        Update: {
+          benefits?: string
+          blockchain?: string
+          company?: string
+          created_at?: string
+          description?: string
+          id?: string
+          logo_url?: string | null
+          partnership_type?: string[]
+          requirements?: string
+          status?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
