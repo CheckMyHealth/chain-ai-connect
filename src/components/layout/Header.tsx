@@ -53,6 +53,9 @@ const Header = () => {
           <Link to="/how-it-works" className="font-medium transition-colors hover:text-blockchain-500">
             How It Works
           </Link>
+          <Link to="/roadmap" className="font-medium transition-colors hover:text-blockchain-500">
+            Roadmap
+          </Link>
           <Link to="/dashboard" className="font-medium transition-colors hover:text-blockchain-500">
             Dashboard
           </Link>

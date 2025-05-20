@@ -39,6 +39,7 @@ const Footer = () => {
               <Link to="/post-project" className="text-sm hover:text-blockchain-500 transition-colors">Post a Project</Link>
               <Link to="/dashboard" className="text-sm hover:text-blockchain-500 transition-colors">Dashboard</Link>
               <Link to="/how-it-works" className="text-sm hover:text-blockchain-500 transition-colors">How It Works</Link>
+              <Link to="/roadmap" className="text-sm hover:text-blockchain-500 transition-colors">Roadmap</Link>
             </div>
             <div className="flex flex-col gap-2">
               <h3 className="font-display font-medium text-sm uppercase tracking-wider text-muted-foreground mb-2">Company</h3>
