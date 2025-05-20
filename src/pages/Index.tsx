@@ -116,7 +116,7 @@ const Index = () => {
         </section>
 
         {/* Statistics Section */}
-        <StatisticsSection />
+        {/* <StatisticsSection /> */}
         
         {/* Features Section */}
         <FeaturesSection />
@@ -125,7 +125,7 @@ const Index = () => {
         <HowItWorksSection />
         
         {/* Testimonials Section */}
-        <TestimonialsSection />
+        {/* <TestimonialsSection /> */}
         
         {/* CTA Section */}
         <section className="bg-blockchain-500 py-16 md:py-20">
