@@ -4,25 +4,10 @@ import { Link } from "react-router-dom";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { CircleCheck } from "lucide-react";
-
-const features = [
-  {
-    title: "AI-Powered Matching",
-    description: "Our intelligent AI agent analyzes your project requirements and finds the perfect partners that align with your goals.",
-  },
-  {
-    title: "Transparent Partnership",
-    description: "All partnerships are recorded on-chain, ensuring transparency, trust, and immutable proof of collaboration.",
-  },
-  {
-    title: "Simplified Workflow",
-    description: "Post your project, receive match notifications, and connect with potential partners all in one streamlined platform.",
-  },
-  {
-    title: "Cross-Chain Support",
-    description: "Connect with projects across multiple blockchains to expand your ecosystem and reach new audiences.",
-  },
-];
+import FeaturesSection from "@/components/home/FeaturesSection";
+import HowItWorksSection from "@/components/home/HowItWorksSection";
+import TestimonialsSection from "@/components/home/TestimonialsSection";
+import StatisticsSection from "@/components/home/StatisticsSection";
 
 const logos = [
   "Ethereum", "Polygon", "Solana", "Avalanche", "Binance", "Polkadot"
@@ -130,39 +115,17 @@ const Index = () => {
           </div>
         </section>
 
+        {/* Statistics Section */}
+        <StatisticsSection />
+        
         {/* Features Section */}
-        <section className="py-16 md:py-24">
-          <div className="container">
-            <div className="flex flex-col items-center text-center mb-12">
-              <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
-                How ChainMatch.AI Works
-              </h2>
-              <p className="text-lg text-muted-foreground max-w-2xl">
-                Our platform simplifies the process of finding and establishing blockchain partnerships through intelligent matching and transparent workflows.
-              </p>
-            </div>
+        <FeaturesSection />
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {features.map((feature, index) => (
-                <div key={index} className="blockchain-card flex flex-col">
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blockchain-100">
-                    <CircleCheck className="h-6 w-6 text-blockchain-500" />
-                  </div>
-                  <h3 className="font-display text-xl font-bold mb-2">{feature.title}</h3>
-                  <p className="text-muted-foreground">{feature.description}</p>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-12 flex justify-center">
-              <Link to="/how-it-works">
-                <Button variant="outline">
-                  Learn More About Our Process
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </section>
+        {/* How It Works Section */}
+        <HowItWorksSection />
+        
+        {/* Testimonials Section */}
+        <TestimonialsSection />
         
         {/* CTA Section */}
         <section className="bg-blockchain-500 py-16 md:py-20">
