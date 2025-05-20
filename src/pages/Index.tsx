@@ -183,7 +183,7 @@ const Index = () => {
                   </Button>
                 </Link>
                 <Link to="/explore">
-                  <Button variant="outline" className="text-white border-white hover:bg-white/10 px-6 py-6 text-lg h-auto">
+                <Button className="bg-white text-blockchain-500 hover:bg-white/90 font-medium px-6 py-6 text-lg h-auto">
                     Explore Partnerships
                   </Button>
                 </Link>

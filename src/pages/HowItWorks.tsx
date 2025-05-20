@@ -88,7 +88,7 @@ const HowItWorks = () => {
                   </Button>
                 </Link>
                 <Link to="/explore">
-                  <Button variant="outline" className="text-white border-white hover:bg-white/10">
+                  <Button className="bg-white text-blockchain-500 hover:bg-white/90">
                     Explore Projects
                   </Button>
                 </Link>
