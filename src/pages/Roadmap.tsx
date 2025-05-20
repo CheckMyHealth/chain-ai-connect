@@ -237,12 +237,12 @@ const Roadmap = () => {
       <Header />
       <main className="flex-grow">
         {/* Hero Section */}
-        <section className="relative bg-gradient-to-b from-blockchain-100 to-transparent py-16 md:py-24">
+        <section className="relative bg-gradient-to-b from-blockchain-100 to-transparent py-12 md:py-24">
           <div className="absolute inset-0 bg-grid-pattern opacity-30"></div>
           <div className="container relative z-10">
             <div className="max-w-3xl mx-auto text-center">
               <motion.h1 
-                className="font-display text-4xl md:text-5xl font-bold mb-6"
+                className="font-display text-3xl md:text-5xl font-bold mb-4"
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
@@ -253,7 +253,7 @@ const Roadmap = () => {
                 Roadmap
               </motion.h1>
               <motion.p 
-                className="text-lg text-muted-foreground mb-8"
+                className="text-base md:text-lg text-muted-foreground mb-6"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
@@ -265,18 +265,18 @@ const Roadmap = () => {
         </section>
 
         {/* Roadmap Section */}
-        <section className="py-16 md:py-24">
-          <div className="container">
+        <section className="py-12 md:py-24">
+          <div className="container px-4 md:px-6">
             <Tabs defaultValue={findCurrentPhase()} className="max-w-5xl mx-auto" onValueChange={setActivePhase}>
-              <div className="flex justify-center mb-8">
-                <TabsList className="bg-muted/50 p-1">
+              <div className="flex justify-center mb-8 overflow-x-auto pb-2">
+                <TabsList className="bg-muted/50 p-1 flex-nowrap">
                   {phases.map((phase) => (
                     <TabsTrigger 
                       key={phase.id} 
                       value={phase.id}
-                      className={`data-[state=active]:bg-blockchain-500 data-[state=active]:text-white`}
+                      className="whitespace-nowrap data-[state=active]:bg-blockchain-500 data-[state=active]:text-white"
                     >
-                      {phase.title}
+                      Phase {phase.id.replace('phase', '')}
                     </TabsTrigger>
                   ))}
                 </TabsList>
@@ -289,19 +289,19 @@ const Roadmap = () => {
                   className="focus-visible:outline-none focus-visible:ring-0"
                 >
                   <motion.div 
-                    className="space-y-8"
+                    className="space-y-6 md:space-y-8"
                     variants={containerVariants}
                     initial="hidden"
                     animate={isLoaded && activePhase === phase.id ? "visible" : "hidden"}
                   >
                     <motion.div 
-                      className="bg-gradient-to-br from-blockchain-100/50 to-blockchain-200/30 rounded-xl p-8 backdrop-blur-sm border border-blockchain-200/20 shadow-lg"
+                      className="bg-gradient-to-br from-blockchain-100/50 to-blockchain-200/30 rounded-xl p-4 md:p-8 backdrop-blur-sm border border-blockchain-200/20 shadow-lg"
                       variants={itemVariants}
                     >
-                      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-6">
                         <div>
-                          <h2 className="font-display text-3xl font-bold mb-2">Phase {phase.id.replace('phase', '')}: {phase.title}</h2>
-                          <div className="flex items-center gap-2 text-muted-foreground mb-4">
+                          <h2 className="font-display text-2xl md:text-3xl font-bold mb-2">{phase.title}</h2>
+                          <div className="flex flex-wrap items-center gap-2 text-muted-foreground mb-4">
                             <Clock className="h-4 w-4 text-blockchain-500" />
                             <span>{phase.time}</span>
                             {phase.current && (
@@ -310,22 +310,22 @@ const Roadmap = () => {
                               </span>
                             )}
                           </div>
-                          <p className="text-lg">{phase.objective}</p>
+                          <p className="text-base md:text-lg">{phase.objective}</p>
                         </div>
-                        <div className="flex-shrink-0">
-                          <div className="h-24 w-24 rounded-full bg-blockchain-500/10 flex items-center justify-center">
-                            {phase.id === 'phase1' && <Flag className="h-12 w-12 text-blockchain-500" />}
-                            {phase.id === 'phase2' && <Calendar className="h-12 w-12 text-blockchain-500" />}
-                            {phase.id === 'phase3' && <Milestone className="h-12 w-12 text-blockchain-500" />}
-                            {phase.id === 'phase4' && <Rocket className="h-12 w-12 text-blockchain-500" />}
+                        <div className="flex-shrink-0 mt-4 md:mt-0">
+                          <div className="h-20 w-20 md:h-24 md:w-24 rounded-full bg-blockchain-500/10 flex items-center justify-center">
+                            {phase.id === 'phase1' && <Flag className="h-8 w-8 md:h-12 md:w-12 text-blockchain-500" />}
+                            {phase.id === 'phase2' && <Calendar className="h-8 w-8 md:h-12 md:w-12 text-blockchain-500" />}
+                            {phase.id === 'phase3' && <Milestone className="h-8 w-8 md:h-12 md:w-12 text-blockchain-500" />}
+                            {phase.id === 'phase4' && <Rocket className="h-8 w-8 md:h-12 md:w-12 text-blockchain-500" />}
                           </div>
                         </div>
                       </div>
                     </motion.div>
                     
                     <motion.div variants={itemVariants}>
-                      <h3 className="font-display text-2xl font-bold mb-6">Milestones</h3>
-                      <div className="space-y-6">
+                      <h3 className="font-display text-xl md:text-2xl font-bold mb-4 md:mb-6">Milestones</h3>
+                      <div className="space-y-4 md:space-y-6">
                         {phase.milestones.map((milestone, index) => (
                           <motion.div 
                             key={index}
@@ -335,20 +335,20 @@ const Roadmap = () => {
                             transition={{ delay: 0.3 + index * 0.1 }}
                           >
                             <div className="blockchain-card">
-                              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                              <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-4">
                                 <div className="flex-grow">
-                                  <h4 className="font-display text-xl font-bold">{milestone.title}</h4>
+                                  <h4 className="font-display text-lg md:text-xl font-bold">{milestone.title}</h4>
                                   <div className="flex items-center gap-2 text-muted-foreground">
                                     <Clock className="h-4 w-4" />
                                     <span>{milestone.time}</span>
                                   </div>
                                 </div>
                                 {milestone.completed ? (
-                                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 whitespace-nowrap">
                                     Completed
                                   </span>
                                 ) : (
-                                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
+                                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800 whitespace-nowrap">
                                     Upcoming
                                   </span>
                                 )}
@@ -385,19 +385,19 @@ const Roadmap = () => {
         </section>
 
         {/* Timeline Section */}
-        <section className="py-16 bg-blockchain-50/50">
-          <div className="container">
+        <section className="py-12 md:py-16 bg-blockchain-50/50">
+          <div className="container px-4 md:px-6">
             <div className="max-w-5xl mx-auto">
-              <h2 className="font-display text-3xl font-bold mb-12 text-center">Complete Timeline</h2>
+              <h2 className="font-display text-2xl md:text-3xl font-bold mb-8 md:mb-12 text-center">Complete Timeline</h2>
               
               <div className="relative">
                 {/* Timeline line */}
-                <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-blockchain-200"></div>
+                <div className="absolute left-4 md:left-1/2 top-0 bottom-0 transform md:-translate-x-1/2 w-1 bg-blockchain-200"></div>
                 
                 {phases.map((phase, phaseIndex) => (
-                  <div key={phase.id} className="mb-16 relative">
-                    <div className="flex items-center justify-center mb-8">
-                      <div className={`h-12 w-12 rounded-full z-10 flex items-center justify-center ${phase.current ? 'bg-blockchain-500 text-white' : 'bg-blockchain-200 text-blockchain-700'}`}>
+                  <div key={phase.id} className="mb-12 md:mb-16 relative">
+                    <div className="flex items-start md:items-center md:justify-center mb-6 md:mb-8 pl-12 md:pl-0">
+                      <div className={`absolute left-0 md:static h-10 w-10 md:h-12 md:w-12 rounded-full z-10 flex items-center justify-center ${phase.current ? 'bg-blockchain-500 text-white' : 'bg-blockchain-200 text-blockchain-700'}`}>
                         <span className="font-bold">{phaseIndex + 1}</span>
                       </div>
                     </div>
@@ -407,19 +407,19 @@ const Roadmap = () => {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
                       transition={{ duration: 0.5 }}
-                      className="bg-white rounded-xl shadow-lg border border-blockchain-100 overflow-hidden"
+                      className="ml-12 md:ml-0 md:w-3/4 md:mx-auto bg-white rounded-xl shadow-lg border border-blockchain-100 overflow-hidden"
                     >
-                      <div className="p-6">
-                        <h3 className="font-display text-2xl font-bold mb-2">{phase.title}</h3>
-                        <p className="text-muted-foreground mb-4">{phase.time} • {phase.objective}</p>
+                      <div className="p-4 md:p-6">
+                        <h3 className="font-display text-xl md:text-2xl font-bold mb-2">{phase.title}</h3>
+                        <p className="text-muted-foreground mb-4 text-sm md:text-base">{phase.time} • {phase.objective}</p>
                         
-                        <div className="space-y-4">
+                        <div className="space-y-3 md:space-y-4">
                           {phase.milestones.map((milestone, index) => (
-                            <div key={index} className="flex items-start gap-4">
-                              <div className={`mt-1 h-4 w-4 rounded-full flex-shrink-0 ${milestone.completed ? 'bg-green-500' : 'bg-amber-500'}`}></div>
+                            <div key={index} className="flex items-start gap-3">
+                              <div className={`mt-1 h-3 w-3 md:h-4 md:w-4 rounded-full flex-shrink-0 ${milestone.completed ? 'bg-green-500' : 'bg-amber-500'}`}></div>
                               <div>
-                                <h4 className="font-medium">{milestone.title}</h4>
-                                <p className="text-sm text-muted-foreground">{milestone.description}</p>
+                                <h4 className="font-medium text-sm md:text-base">{milestone.title}</h4>
+                                <p className="text-xs md:text-sm text-muted-foreground">{milestone.description}</p>
                               </div>
                             </div>
                           ))}
@@ -434,19 +434,19 @@ const Roadmap = () => {
         </section>
         
         {/* CTA Section */}
-        <section className="py-16 md:py-24 bg-blockchain-500">
-          <div className="container">
+        <section className="py-12 md:py-24 bg-blockchain-500">
+          <div className="container px-4 md:px-6">
             <div className="max-w-4xl mx-auto text-center text-white">
-              <h2 className="font-display text-3xl md:text-4xl font-bold mb-6">Join Our Journey</h2>
-              <p className="text-lg text-white/80 mb-8">
+              <h2 className="font-display text-2xl md:text-4xl font-bold mb-4 md:mb-6">Join Our Journey</h2>
+              <p className="text-base md:text-lg text-white/80 mb-6 md:mb-8">
                 Be part of the ChainMatch.AI ecosystem and help shape the future of blockchain partnerships.
                 Stay updated with our development progress and upcoming features.
               </p>
-              <div className="flex flex-wrap justify-center gap-4">
-                <a href="#" className="bg-white text-blockchain-500 px-6 py-3 rounded-lg font-medium hover:bg-white/90 transition-colors">
+              <div className="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#" className="bg-white text-blockchain-500 px-4 py-2 md:px-6 md:py-3 rounded-lg font-medium hover:bg-white/90 transition-colors">
                   Join Our Community
                 </a>
-                <a href="#" className="bg-transparent border border-white text-white px-6 py-3 rounded-lg font-medium hover:bg-white/10 transition-colors">
+                <a href="#" className="bg-transparent border border-white text-white px-4 py-2 md:px-6 md:py-3 rounded-lg font-medium hover:bg-white/10 transition-colors">
                   Subscribe to Updates
                 </a>
               </div>
