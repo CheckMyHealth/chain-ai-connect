@@ -3,6 +3,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { FileContract, CoinStack, DollarSign, Shield, CircleCheck, Zap } from "lucide-react";
 
 const steps = [
   {
@@ -10,24 +11,49 @@ const steps = [
     description:
       "Start by sharing details about your blockchain project and what kind of partnership you're looking for. Be specific about your requirements, goals, and what you can offer to potential partners.",
     image: "step1",
+    icon: <Zap className="h-10 w-10 text-blockchain-500" />,
   },
   {
     title: "AI Analysis & Matching",
     description:
       "Our intelligent AI agent analyzes your project and requirements, then searches for potential partners that align with your goals. The matching algorithm considers technical compatibility, business alignment, and mutual benefit potential.",
     image: "step2",
+    icon: <CircleCheck className="h-10 w-10 text-blockchain-500" />,
   },
   {
     title: "Review Partnership Suggestions",
     description:
       "Receive notifications about potential partnerships with detailed match scores and analysis. Review each suggestion to understand why our AI thinks it's a good match for your project.",
     image: "step3",
+    icon: <Shield className="h-10 w-10 text-blockchain-500" />,
   },
   {
     title: "Connect & Collaborate",
     description:
       "Initiate contact with potential partners through our platform. Discuss the partnership details, finalize terms, and formalize your collaboration with immutable on-chain verification.",
     image: "step4",
+    icon: <FileContract className="h-10 w-10 text-blockchain-500" />,
+  },
+  {
+    title: "Create On-Chain Agreements",
+    description:
+      "Establish transparent and enforceable partnership agreements using our selection of smart contract templates. Customize terms for revenue splits, resource sharing, or milestone-based payments.",
+    image: "step5",
+    icon: <FileContract className="h-10 w-10 text-blockchain-500" />,
+  },
+  {
+    title: "Setup Revenue-Sharing Models",
+    description:
+      "Configure automated revenue distribution mechanisms using our platform's smart contracts. Set parameters for profit splitting, fee structures, and payment schedules.",
+    image: "step6",
+    icon: <DollarSign className="h-10 w-10 text-blockchain-500" />,
+  },
+  {
+    title: "Earn Tokenized Incentives",
+    description:
+      "Participate in the ecosystem to earn platform tokens that can be used for governance voting, premium features, or staked to demonstrate commitment to partnerships.",
+    image: "step7",
+    icon: <CoinStack className="h-10 w-10 text-blockchain-500" />,
   },
 ];
 
@@ -70,8 +96,14 @@ const HowItWorks = () => {
       <Header />
       <main className="flex-grow">
         {/* Hero Section */}
-        <section className="bg-blockchain-500 py-16 md:py-24 text-white">
-          <div className="container">
+        <section className="relative bg-blockchain-500 py-16 md:py-24 text-white overflow-hidden">
+          {/* Animated background elements */}
+          <div className="absolute inset-0">
+            <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-blockchain-400/30 animate-pulse"></div>
+            <div className="absolute bottom-10 left-10 w-40 h-40 rounded-full bg-blockchain-600/20 animate-pulse" style={{ animationDuration: '8s' }}></div>
+          </div>
+          
+          <div className="container relative">
             <div className="max-w-3xl mx-auto text-center">
               <h1 className="font-display text-4xl md:text-5xl font-bold mb-6">
                 How ChainMatch.AI Works
@@ -123,8 +155,8 @@ const HowItWorks = () => {
                       index % 2 === 1 ? "md:order-2" : ""
                     }`}
                   >
-                    <div className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-blockchain-100 text-blockchain-500 font-bold mb-2">
-                      {index + 1}
+                    <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-blockchain-100 mb-2">
+                      {step.icon}
                     </div>
                     <h3 className="font-display text-2xl font-bold">
                       {step.title}
@@ -134,15 +166,19 @@ const HowItWorks = () => {
                     </p>
                   </div>
                   <div
-                    className={`bg-gradient-to-tr from-blockchain-100 to-blockchain-200 rounded-2xl p-8 flex items-center justify-center ${
+                    className={`bg-gradient-to-tr from-blockchain-100 to-blockchain-200 rounded-2xl p-8 flex items-center justify-center relative overflow-hidden ${
                       index % 2 === 1 ? "md:order-1" : ""
                     }`}
                   >
-                    {/* Placeholder for step illustration */}
-                    <div className="h-64 w-full bg-white/50 rounded-lg flex items-center justify-center">
+                    {/* Step illustration with animated elements */}
+                    <div className="h-64 w-full bg-white/50 rounded-lg flex items-center justify-center relative">
                       <div className="text-blockchain-500 font-display font-bold text-xl">
-                        {step.title} Illustration
+                        {step.title}
                       </div>
+                      
+                      {/* Animated elements */}
+                      <div className="absolute top-4 left-4 w-8 h-8 rounded-full bg-blockchain-300/50 animate-ping"></div>
+                      <div className="absolute bottom-4 right-4 w-12 h-12 rounded-full bg-blockchain-400/30 animate-pulse" style={{ animationDuration: '3s' }}></div>
                     </div>
                   </div>
                 </div>
@@ -166,8 +202,8 @@ const HowItWorks = () => {
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {benefits.map((benefit, index) => (
-                <div key={index} className="blockchain-card">
-                  <h3 className="font-display text-xl font-bold mb-3">
+                <div key={index} className="p-6 rounded-xl border border-blockchain-100 bg-white hover:shadow-lg transition-all hover:-translate-y-1 duration-300">
+                  <h3 className="font-display text-xl font-bold mb-3 text-blockchain-600">
                     {benefit.title}
                   </h3>
                   <p className="text-muted-foreground">
@@ -193,32 +229,32 @@ const HowItWorks = () => {
               </div>
 
               <div className="space-y-6">
-                <div className="blockchain-card">
-                  <h3 className="font-display text-xl font-bold mb-2">
+                <div className="p-6 rounded-xl border border-blockchain-100 hover:border-blockchain-300 transition-colors bg-white">
+                  <h3 className="font-display text-xl font-bold mb-2 text-blockchain-600">
                     How does the AI matching work?
                   </h3>
                   <p className="text-muted-foreground">
                     Our AI analyzes multiple factors including technical compatibility, business goals, target audience overlap, and partnership requirements to find the most suitable matches for your project.
                   </p>
                 </div>
-                <div className="blockchain-card">
-                  <h3 className="font-display text-xl font-bold mb-2">
+                <div className="p-6 rounded-xl border border-blockchain-100 hover:border-blockchain-300 transition-colors bg-white">
+                  <h3 className="font-display text-xl font-bold mb-2 text-blockchain-600">
                     Is my project information secure?
                   </h3>
                   <p className="text-muted-foreground">
                     Yes, we take security seriously. Your sensitive project details are encrypted and only shared with potential partners after your explicit approval.
                   </p>
                 </div>
-                <div className="blockchain-card">
-                  <h3 className="font-display text-xl font-bold mb-2">
+                <div className="p-6 rounded-xl border border-blockchain-100 hover:border-blockchain-300 transition-colors bg-white">
+                  <h3 className="font-display text-xl font-bold mb-2 text-blockchain-600">
                     How are partnerships verified on-chain?
                   </h3>
                   <p className="text-muted-foreground">
                     Once both parties agree to a partnership, the details are recorded in a smart contract on the blockchain, creating an immutable record of the collaboration.
                   </p>
                 </div>
-                <div className="blockchain-card">
-                  <h3 className="font-display text-xl font-bold mb-2">
+                <div className="p-6 rounded-xl border border-blockchain-100 hover:border-blockchain-300 transition-colors bg-white">
+                  <h3 className="font-display text-xl font-bold mb-2 text-blockchain-600">
                     What blockchains do you support?
                   </h3>
                   <p className="text-muted-foreground">
@@ -231,8 +267,14 @@ const HowItWorks = () => {
         </section>
 
         {/* CTA */}
-        <section className="bg-blockchain-500 py-16 md:py-20">
-          <div className="container">
+        <section className="bg-blockchain-500 py-16 md:py-20 relative overflow-hidden">
+          {/* Animated background elements */}
+          <div className="absolute inset-0">
+            <div className="absolute top-1/4 -left-20 w-40 h-40 rounded-full bg-blockchain-400/30 animate-pulse"></div>
+            <div className="absolute bottom-10 right-10 w-60 h-60 rounded-full bg-blockchain-600/20 animate-pulse" style={{ animationDuration: '10s' }}></div>
+          </div>
+          
+          <div className="container relative">
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="font-display text-white text-3xl md:text-4xl font-bold mb-6">
                 Ready to find your next blockchain partnership?

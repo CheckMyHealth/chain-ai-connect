@@ -1,6 +1,6 @@
 
 import { Card } from "@/components/ui/card";
-import { CircleCheck, Zap, Lock, Star, DollarSign, Users } from "lucide-react";
+import { CircleCheck, Zap, Lock, Star, DollarSign, Users, FileContract, CoinStack, Wallet } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
@@ -25,12 +25,24 @@ const steps = [
   },
   {
     number: "04",
-    title: "Formalize With Smart Contracts",
-    description: "Create transparent, enforceable partnership agreements using our on-chain smart contract templates.",
-    icon: <DollarSign className="h-12 w-12 text-blockchain-500" />
+    title: "On-Chain Partnership Agreements",
+    description: "Create transparent, enforceable partnership agreements using our on-chain smart contract templates with flexible terms.",
+    icon: <FileContract className="h-12 w-12 text-blockchain-500" />
   },
   {
     number: "05",
+    title: "Revenue-Sharing Models",
+    description: "Set up automated revenue split mechanisms through smart contracts that distribute earnings based on agreed terms.",
+    icon: <DollarSign className="h-12 w-12 text-blockchain-500" />
+  },
+  {
+    number: "06",
+    title: "Tokenized Incentives",
+    description: "Earn tokens for active participation and successful partnerships that can be staked for platform governance.",
+    icon: <CoinStack className="h-12 w-12 text-blockchain-500" />
+  },
+  {
+    number: "07",
     title: "Track & Grow Together",
     description: "Monitor partnership performance, share resources, and scale your blockchain ecosystem collaboratively.",
     icon: <Users className="h-12 w-12 text-blockchain-500" />
@@ -68,10 +80,15 @@ const HowItWorksSection = () => {
   return (
     <section className="py-16 md:py-24 bg-gradient-to-br from-blockchain-50 to-white overflow-hidden relative">
       <div className="absolute top-0 right-0 w-1/2 h-full bg-grid-pattern opacity-10 transform rotate-12"></div>
+      
+      {/* Animated elements */}
+      <div className="absolute left-0 top-1/4 w-32 h-32 bg-blockchain-100 rounded-full opacity-30 animate-pulse"></div>
+      <div className="absolute right-0 bottom-1/4 w-24 h-24 bg-blockchain-200 rounded-full opacity-20 animate-pulse" style={{ animationDuration: '7s' }}></div>
+      
       <div className="container relative">
         <div className="flex flex-col items-center text-center mb-12">
           <div className="inline-block mb-4">
-            <div className="flex items-center justify-center h-12 w-12 rounded-full bg-blockchain-100 text-blockchain-500 mx-auto">
+            <div className="flex items-center justify-center h-12 w-12 rounded-full bg-blockchain-100 text-blockchain-500 mx-auto animate-bounce">
               <Zap className="h-6 w-6" />
             </div>
           </div>
@@ -89,7 +106,7 @@ const HowItWorksSection = () => {
               <h3 className="font-display text-2xl font-bold">Core Features</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {features.map((feature, index) => (
-                  <div key={index} className="flex gap-3 items-start p-3 rounded-lg border border-blockchain-100 bg-white hover:shadow-md transition-all">
+                  <div key={index} className="flex gap-3 items-start p-3 rounded-lg border border-blockchain-100 bg-white hover:shadow-md transition-all hover:-translate-y-1">
                     <div className="flex-shrink-0">
                       <CircleCheck className="h-5 w-5 text-blockchain-500" />
                     </div>
@@ -116,8 +133,17 @@ const HowItWorksSection = () => {
                 alt="AI Partnership Process" 
                 className="rounded-2xl shadow-2xl object-cover h-full w-full"
               />
+              <div className="absolute inset-0 bg-gradient-to-tr from-blockchain-500/30 to-transparent rounded-2xl"></div>
               <div className="absolute -bottom-4 -left-4 rounded-full bg-blockchain-500 h-16 w-16 flex items-center justify-center text-white font-bold text-2xl animate-pulse">
                 AI
+              </div>
+              
+              {/* Floating icons */}
+              <div className="absolute top-4 right-4 bg-white p-2 rounded-full shadow-lg animate-bounce" style={{ animationDuration: '3s' }}>
+                <Wallet className="h-6 w-6 text-blockchain-500" />
+              </div>
+              <div className="absolute bottom-12 right-8 bg-white p-2 rounded-full shadow-lg animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }}>
+                <CoinStack className="h-5 w-5 text-blockchain-500" />
               </div>
             </div>
           </div>
@@ -125,7 +151,7 @@ const HowItWorksSection = () => {
 
         <div className="relative z-10">
           <div className="absolute left-12 top-0 bottom-0 w-1 bg-blockchain-100 hidden lg:block"></div>
-          <div className="space-y-16">
+          <div className="space-y-8 md:space-y-12">
             {steps.map((step, index) => (
               <Card key={index} className="relative overflow-hidden border-l-4 border-l-blockchain-500 transform transition-all hover:-translate-y-1 hover:shadow-lg">
                 <div className="p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-6">

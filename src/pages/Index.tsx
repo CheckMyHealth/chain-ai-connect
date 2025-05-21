@@ -6,11 +6,17 @@ import Footer from "@/components/layout/Footer";
 import { CircleCheck, Zap, Lock, Share, Database, Code } from "lucide-react";
 import FeaturesSection from "@/components/home/FeaturesSection";
 import HowItWorksSection from "@/components/home/HowItWorksSection";
-import TestimonialsSection from "@/components/home/TestimonialsSection";
-import StatisticsSection from "@/components/home/StatisticsSection";
 
-const logos = [
-  "Ethereum", "Polygon", "Solana", "Avalanche", "Binance", "Polkadot"
+const blockchainLogos = [
+  { name: "Ethereum", logo: "https://cryptologos.cc/logos/ethereum-eth-logo.svg?v=024" },
+  { name: "Polygon", logo: "https://cryptologos.cc/logos/polygon-matic-logo.svg?v=024" },
+  { name: "Solana", logo: "https://cryptologos.cc/logos/solana-sol-logo.svg?v=024" },
+  { name: "Avalanche", logo: "https://cryptologos.cc/logos/avalanche-avax-logo.svg?v=024" },
+  { name: "Binance", logo: "https://cryptologos.cc/logos/binance-coin-bnb-logo.svg?v=024" },
+  { name: "Polkadot", logo: "https://cryptologos.cc/logos/polkadot-new-dot-logo.svg?v=024" },
+  { name: "Cosmos", logo: "https://cryptologos.cc/logos/cosmos-atom-logo.svg?v=024" },
+  { name: "Cardano", logo: "https://cryptologos.cc/logos/cardano-ada-logo.svg?v=024" },
+  { name: "Algorand", logo: "https://cryptologos.cc/logos/algorand-algo-logo.svg?v=024" },
 ];
 
 const Index = () => {
@@ -18,104 +24,67 @@ const Index = () => {
     <div className="min-h-screen flex flex-col">
       <Header />
       <main className="flex-grow">
-        {/* Hero Section */}
+        {/* Hero Section with Animated Background */}
         <section className="relative overflow-hidden bg-gradient-to-b from-blockchain-100 to-transparent pb-16 pt-24 md:pb-24 md:pt-32">
-          <div className="absolute inset-0 bg-grid-pattern opacity-50"></div>
+          {/* Animated background elements */}
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute w-64 h-64 rounded-full bg-blockchain-200/20 -top-10 -left-10 animate-pulse"></div>
+            <div className="absolute w-96 h-96 rounded-full bg-blockchain-300/20 top-1/4 right-1/3 animate-pulse" style={{ animationDuration: '8s' }}></div>
+            <div className="absolute w-72 h-72 rounded-full bg-blockchain-400/20 bottom-1/4 -right-20 animate-pulse" style={{ animationDuration: '12s' }}></div>
+            <div className="absolute inset-0 bg-grid-pattern opacity-30"></div>
+          </div>
+          
           <div className="container relative">
-            <div className="grid gap-10 md:grid-cols-2 md:gap-16 items-center">
-              <div className="space-y-8">
-                <div className="space-y-4">
-                  <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight">
-                    <span className="bg-gradient-to-r from-blockchain-500 to-blockchain-700 bg-clip-text text-transparent">
+            <div className="max-w-3xl mx-auto text-center space-y-8">
+              <div className="space-y-4">
+                <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight">
+                  <span className="relative inline-block">
+                    <span className="bg-gradient-to-r from-blockchain-500 to-blockchain-700 bg-clip-text text-transparent animate-pulse">
                       AI-Powered
-                    </span>{" "}
-                    Blockchain Partnership Platform
-                  </h1>
-                  <p className="text-lg text-muted-foreground md:text-xl">
-                    Connect with the perfect blockchain partners through our intelligent matching system. Grow your project ecosystem with strategic partnerships.
-                  </p>
-                </div>
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <Link to="/post-project">
-                    <Button className="bg-blockchain-500 hover:bg-blockchain-600 text-white font-medium px-8 py-6 text-lg h-auto">
-                      Post Your Project
-                    </Button>
-                  </Link>
-                  <Link to="/explore">
-                    <Button variant="outline" className="px-8 py-6 text-lg h-auto">
-                      Explore Partnerships
-                    </Button>
-                  </Link>
-                </div>
-                <div className="flex flex-wrap gap-4">
-                  {logos.map((logo) => (
-                    <div key={logo} className="rounded-full px-3 py-1 text-xs bg-white shadow-sm border">
-                      {logo}
+                    </span>
+                    <span className="absolute -bottom-1 left-0 w-full h-1 bg-blockchain-500 transform scale-x-0 origin-left animate-[grow_3s_ease-in-out_infinite]"></span>
+                  </span>{" "}
+                  Blockchain Partnership Platform
+                </h1>
+                <p className="text-lg text-muted-foreground md:text-xl">
+                  Connect with the perfect blockchain partners through our intelligent matching system. Grow your project ecosystem with strategic partnerships.
+                </p>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link to="/post-project">
+                  <Button className="bg-blockchain-500 hover:bg-blockchain-600 text-white font-medium px-8 py-6 text-lg h-auto">
+                    Post Your Project
+                  </Button>
+                </Link>
+                <Link to="/explore">
+                  <Button variant="outline" className="px-8 py-6 text-lg h-auto">
+                    Explore Partnerships
+                  </Button>
+                </Link>
+              </div>
+              
+              {/* Scrolling blockchain logos */}
+              <div className="mt-12 relative overflow-hidden h-16">
+                <div className="absolute flex gap-8 animate-[scroll_30s_linear_infinite] whitespace-nowrap">
+                  {[...blockchainLogos, ...blockchainLogos].map((logo, index) => (
+                    <div key={index} className="flex flex-col items-center justify-center">
+                      <div className="h-8 w-8 flex items-center justify-center">
+                        <img src={logo.logo} alt={logo.name} className="h-full" />
+                      </div>
+                      <span className="text-xs text-muted-foreground mt-1">{logo.name}</span>
                     </div>
                   ))}
-                </div>
-              </div>
-              <div className="relative">
-                <div className="relative aspect-square md:aspect-[4/3] overflow-hidden rounded-2xl bg-gradient-to-tr from-blockchain-300/20 to-blockchain-600/20 p-2 shadow-2xl">
-                  <div className="absolute right-2 top-2 z-20 rounded-full bg-white p-2 shadow-lg">
-                    <div className="rounded-full bg-blockchain-500 p-1 text-white">
-                      <CircleCheck className="h-4 w-4" />
-                    </div>
-                  </div>
-                  <img 
-                    src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&q=80&w=1200&h=900" 
-                    alt="AI Blockchain Partnership Platform" 
-                    className="absolute inset-0 object-cover w-full h-full rounded-xl"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-tr from-blockchain-500/30 to-blockchain-600/30 rounded-xl"></div>
-                  <div className="absolute inset-0 flex items-center justify-center px-6 py-8">
-                    <div className="space-y-6 w-full relative z-10">
-                      <div className="space-y-2">
-                        <div className="h-6 w-1/2 rounded-md bg-white/80"></div>
-                        <div className="h-4 w-3/4 rounded-md bg-white/60"></div>
-                      </div>
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="h-24 rounded-lg glass p-3 backdrop-blur-md">
-                          <div className="h-4 w-1/2 rounded bg-white/90"></div>
-                          <div className="mt-2 h-3 w-3/4 rounded bg-white/70"></div>
-                          <div className="mt-4 flex gap-1">
-                            <div className="h-3 w-8 rounded-full bg-blockchain-500/80"></div>
-                            <div className="h-3 w-8 rounded-full bg-white/70"></div>
-                          </div>
-                        </div>
-                        <div className="h-24 rounded-lg glass p-3 backdrop-blur-md">
-                          <div className="h-4 w-1/2 rounded bg-white/90"></div>
-                          <div className="mt-2 h-3 w-3/4 rounded bg-white/70"></div>
-                          <div className="mt-4 flex gap-1">
-                            <div className="h-3 w-8 rounded-full bg-blockchain-500/80"></div>
-                            <div className="h-3 w-8 rounded-full bg-white/70"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="absolute -bottom-6 -right-6 h-24 w-24 rounded-full bg-blockchain-500 p-6 shadow-lg hidden md:block animate-pulse">
-                  <div className="rounded-full bg-white p-4 h-full w-full flex items-center justify-center">
-                    <Zap className="h-6 w-6 text-blockchain-500" />
-                  </div>
                 </div>
               </div>
             </div>
           </div>
         </section>
-
-        {/* Statistics Section */}
-        <StatisticsSection />
         
         {/* Features Section */}
         <FeaturesSection />
 
         {/* How It Works Section */}
         <HowItWorksSection />
-        
-        {/* Testimonials Section */}
-        <TestimonialsSection />
         
         {/* Core Technologies Section */}
         <section className="py-16 md:py-24 bg-gradient-to-b from-blockchain-50 to-white">
