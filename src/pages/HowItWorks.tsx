@@ -1,9 +1,8 @@
-
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { FileContract, CoinStack, DollarSign, Shield, CircleCheck, Zap } from "lucide-react";
+import { FileText, Coins, DollarSign, Shield, CircleCheck, Zap } from "lucide-react";
 
 const steps = [
   {
@@ -32,14 +31,14 @@ const steps = [
     description:
       "Initiate contact with potential partners through our platform. Discuss the partnership details, finalize terms, and formalize your collaboration with immutable on-chain verification.",
     image: "step4",
-    icon: <FileContract className="h-10 w-10 text-blockchain-500" />,
+    icon: <FileText className="h-10 w-10 text-blockchain-500" />,
   },
   {
     title: "Create On-Chain Agreements",
     description:
       "Establish transparent and enforceable partnership agreements using our selection of smart contract templates. Customize terms for revenue splits, resource sharing, or milestone-based payments.",
     image: "step5",
-    icon: <FileContract className="h-10 w-10 text-blockchain-500" />,
+    icon: <FileText className="h-10 w-10 text-blockchain-500" />,
   },
   {
     title: "Setup Revenue-Sharing Models",
@@ -53,7 +52,7 @@ const steps = [
     description:
       "Participate in the ecosystem to earn platform tokens that can be used for governance voting, premium features, or staked to demonstrate commitment to partnerships.",
     image: "step7",
-    icon: <CoinStack className="h-10 w-10 text-blockchain-500" />,
+    icon: <Coins className="h-10 w-10 text-blockchain-500" />,
   },
 ];
 

@@ -1,6 +1,6 @@
 
 import { Card } from "@/components/ui/card";
-import { CircleCheck, Zap, Lock, Star, DollarSign, Users, FileContract, CoinStack, Wallet } from "lucide-react";
+import { CircleCheck, Zap, Lock, Star, DollarSign, Users, FileText, Coins, Wallet } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
@@ -27,7 +27,7 @@ const steps = [
     number: "04",
     title: "On-Chain Partnership Agreements",
     description: "Create transparent, enforceable partnership agreements using our on-chain smart contract templates with flexible terms.",
-    icon: <FileContract className="h-12 w-12 text-blockchain-500" />
+    icon: <FileText className="h-12 w-12 text-blockchain-500" />
   },
   {
     number: "05",
@@ -39,7 +39,7 @@ const steps = [
     number: "06",
     title: "Tokenized Incentives",
     description: "Earn tokens for active participation and successful partnerships that can be staked for platform governance.",
-    icon: <CoinStack className="h-12 w-12 text-blockchain-500" />
+    icon: <Coins className="h-12 w-12 text-blockchain-500" />
   },
   {
     number: "07",

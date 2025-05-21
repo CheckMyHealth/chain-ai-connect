@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -7,7 +6,8 @@ import ProjectCard from "@/components/project/ProjectCard";
 import PartnershipSuggestion from "@/components/dashboard/PartnershipSuggestion";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Bell, Chart, FileContract, Wallet, Users, Search, Plus, ArrowLeft, ArrowRight, CoinStack, Zap } from "lucide-react";
+import { Bell, BarChart, FileText, Wallet, Users, Search, Plus, ArrowLeft, ArrowRight, Coins, Zap } from "lucide-react";
+import { Link } from "react-router-dom";
 
 // Mock data for the dashboard
 const myProjects = [
@@ -112,9 +112,9 @@ const partnershipSuggestions = [
 // New stats data
 const dashboardStats = [
   { label: "Partnership Matches", value: "7", icon: <Users className="h-5 w-5 text-blockchain-500" />, change: "+3 this week" },
-  { label: "Your Projects", value: "2", icon: <FileContract className="h-5 w-5 text-blockchain-500" />, change: "Active" },
-  { label: "ChainMatch Score", value: "86", icon: <Chart className="h-5 w-5 text-blockchain-500" />, change: "+12 points" },
-  { label: "CMATCH Tokens", value: "500", icon: <CoinStack className="h-5 w-5 text-blockchain-500" />, change: "+50 last month" },
+  { label: "Your Projects", value: "2", icon: <FileText className="h-5 w-5 text-blockchain-500" />, change: "Active" },
+  { label: "ChainMatch Score", value: "86", icon: <BarChart className="h-5 w-5 text-blockchain-500" />, change: "+12 points" },
+  { label: "CMATCH Tokens", value: "500", icon: <Coins className="h-5 w-5 text-blockchain-500" />, change: "+50 last month" },
 ];
 
 const Dashboard = () => {
@@ -208,7 +208,7 @@ const Dashboard = () => {
               </div>
               <div className="flex gap-3 items-center p-3">
                 <div className="bg-blue-100 p-2 rounded-full">
-                  <FileContract className="h-4 w-4 text-blue-600" />
+                  <FileText className="h-4 w-4 text-blue-600" />
                 </div>
                 <div className="flex-grow">
                   <p className="text-sm"><span className="font-medium">BridgeX Network</span> accepted your partnership</p>
