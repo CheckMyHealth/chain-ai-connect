@@ -6,17 +6,17 @@ import { CircleCheck, Zap, Lock, Share, Database, Code } from "lucide-react";
 import FeaturesSection from "@/components/home/FeaturesSection";
 import HowItWorksSection from "@/components/home/HowItWorksSection";
 
-// Updated blockchain logos with static imports or reliable CDN sources
+// Updated blockchain logos with direct image paths
 const blockchainLogos = [
-  { name: "Ethereum", logo: "https://cryptologos.cc/logos/ethereum-eth-logo.png" },
-  { name: "Polygon", logo: "https://cryptologos.cc/logos/polygon-matic-logo.png" },
-  { name: "Solana", logo: "https://cryptologos.cc/logos/solana-sol-logo.png" },
-  { name: "Avalanche", logo: "https://cryptologos.cc/logos/avalanche-avax-logo.png" },
-  { name: "Binance", logo: "https://cryptologos.cc/logos/binance-coin-bnb-logo.png" },
-  { name: "Polkadot", logo: "https://cryptologos.cc/logos/polkadot-new-dot-logo.png" },
-  { name: "Cosmos", logo: "https://cryptologos.cc/logos/cosmos-atom-logo.png" },
-  { name: "Cardano", logo: "https://cryptologos.cc/logos/cardano-ada-logo.png" },
-  { name: "Algorand", logo: "https://cryptologos.cc/logos/algorand-algo-logo.png" },
+  { name: "Ethereum", logo: "https://cryptologos.cc/logos/ethereum-eth-logo.svg?v=025" },
+  { name: "Polygon", logo: "https://cryptologos.cc/logos/polygon-matic-logo.svg?v=025" },
+  { name: "Solana", logo: "https://cryptologos.cc/logos/solana-sol-logo.svg?v=025" },
+  { name: "Avalanche", logo: "https://cryptologos.cc/logos/avalanche-avax-logo.svg?v=025" },
+  { name: "Binance", logo: "https://cryptologos.cc/logos/bnb-bnb-logo.svg?v=025" },
+  { name: "Polkadot", logo: "https://cryptologos.cc/logos/polkadot-new-dot-logo.svg?v=025" },
+  { name: "Cosmos", logo: "https://cryptologos.cc/logos/cosmos-atom-logo.svg?v=025" },
+  { name: "Cardano", logo: "https://cryptologos.cc/logos/cardano-ada-logo.svg?v=025" },
+  { name: "Algorand", logo: "https://cryptologos.cc/logos/algorand-algo-logo.svg?v=025" },
 ];
 
 const Index = () => {

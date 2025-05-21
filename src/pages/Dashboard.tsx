@@ -12,6 +12,48 @@ import PartnershipSuggestion from "@/components/dashboard/PartnershipSuggestion"
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
   
+  const handleAccept = (id: string) => {
+    console.log(`Accepted partnership with ID: ${id}`);
+  };
+  
+  const handleDecline = (id: string) => {
+    console.log(`Declined partnership with ID: ${id}`);
+  };
+
+  // Sample partnership data that matches the component props
+  const partnershipSuggestions = [
+    {
+      id: "1",
+      companyName: "Protocol X",
+      projectName: "Layer 1 blockchain protocol",
+      description: "Layer 1 blockchain protocol with smart contract capabilities",
+      matchScore: 95,
+      matchReasons: ["Technology compatibility", "Market alignment", "Complementary user base"],
+      blockchains: ["Ethereum", "Polygon"],
+      logo: "https://cryptologos.cc/logos/ethereum-eth-logo.png"
+    },
+    {
+      id: "2",
+      companyName: "DeFi Project Y",
+      projectName: "Decentralized lending platform",
+      description: "Decentralized lending and borrowing platform",
+      matchScore: 87,
+      matchReasons: ["Shared target audience", "Integration potential", "Technical synergy"],
+      blockchains: ["Solana", "Avalanche"],
+      logo: "https://cryptologos.cc/logos/aave-aave-logo.png"
+    },
+    {
+      id: "3",
+      companyName: "NFT Platform Z",
+      projectName: "Digital art marketplace",
+      description: "Digital art marketplace and NFT minting platform",
+      matchScore: 82,
+      matchReasons: ["Complementary services", "Audience overlap", "Expansion opportunity"],
+      blockchains: ["Ethereum", "Flow"],
+      logo: "https://cryptologos.cc/logos/enjin-coin-enj-logo.png"
+    }
+  ];
+  
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -19,8 +61,8 @@ const Dashboard = () => {
         <div className="container">
           {/* Coming Soon Overlay */}
           <div className="relative">
-            {/* Blur overlay with Coming Soon message */}
-            <div className="absolute inset-0 backdrop-blur-md bg-white/80 dark:bg-blockchain-900/80 z-10 flex flex-col items-center justify-center rounded-lg">
+            {/* Blur overlay with Coming Soon message with glassmorphism effect */}
+            <div className="absolute inset-0 backdrop-blur-md bg-white/50 dark:bg-blockchain-900/50 z-10 flex flex-col items-center justify-center rounded-lg border border-white/20 shadow-lg">
               <div className="text-center max-w-md">
                 <div className="inline-block mb-4 relative">
                   <div className="flex items-center justify-center h-20 w-20 rounded-full bg-blockchain-100 text-blockchain-500 mx-auto overflow-hidden">
@@ -222,27 +264,14 @@ const Dashboard = () => {
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-6">
-                        <PartnershipSuggestion 
-                          name="Protocol X"
-                          description="Layer 1 blockchain protocol with smart contract capabilities"
-                          compatibility={95}
-                          logo="https://cryptologos.cc/logos/ethereum-eth-logo.png"
-                          status="Active"
-                        />
-                        <PartnershipSuggestion 
-                          name="DeFi Project Y"
-                          description="Decentralized lending and borrowing platform"
-                          compatibility={87}
-                          logo="https://cryptologos.cc/logos/aave-aave-logo.png"
-                          status="In Progress"
-                        />
-                        <PartnershipSuggestion 
-                          name="NFT Platform Z"
-                          description="Digital art marketplace and NFT minting platform"
-                          logo="https://cryptologos.cc/logos/enjin-coin-enj-logo.png"
-                          compatibility={82}
-                          status="Proposed"
-                        />
+                        {partnershipSuggestions.map((suggestion) => (
+                          <PartnershipSuggestion
+                            key={suggestion.id}
+                            suggestion={suggestion}
+                            onAccept={handleAccept}
+                            onDecline={handleDecline}
+                          />
+                        ))}
                       </div>
                     </CardContent>
                   </Card>

@@ -22,8 +22,8 @@ const PostProject = () => {
 
           {/* Relative container for Card and Overlay */}
           <div className="relative">
-            {/* Blur overlay with Coming Soon message */}
-            <div className="absolute inset-0 backdrop-blur-md bg-white/80 dark:bg-blockchain-900/80 z-10 flex flex-col items-center justify-center rounded-lg">
+            {/* Blur overlay with Coming Soon message with glassmorphism effect */}
+            <div className="absolute inset-0 backdrop-blur-md bg-white/50 dark:bg-blockchain-900/50 z-10 flex flex-col items-center justify-center rounded-lg border border-white/20 shadow-lg">
               <div className="text-center max-w-md">
                 <div className="inline-block mb-4 relative">
                   <div className="flex items-center justify-center h-20 w-20 rounded-full bg-blockchain-100 text-blockchain-500 mx-auto overflow-hidden">
