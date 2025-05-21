@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/ui/card";
 import { CircleCheck, Zap, Lock, Star, DollarSign, Users, FileText, Coins, Wallet } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -143,7 +142,7 @@ const HowItWorksSection = () => {
                 <Wallet className="h-6 w-6 text-blockchain-500" />
               </div>
               <div className="absolute bottom-12 right-8 bg-white p-2 rounded-full shadow-lg animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }}>
-                <CoinStack className="h-5 w-5 text-blockchain-500" />
+                <Coins className="h-5 w-5 text-blockchain-500" />
               </div>
             </div>
           </div>
