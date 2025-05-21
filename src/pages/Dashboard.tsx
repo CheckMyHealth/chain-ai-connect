@@ -1,347 +1,255 @@
+
 import { useState } from "react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import ProjectCard from "@/components/project/ProjectCard";
-import PartnershipSuggestion from "@/components/dashboard/PartnershipSuggestion";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Bell, BarChart, FileText, Wallet, Users, Search, Plus, ArrowLeft, ArrowRight, Coins, Zap } from "lucide-react";
+import { ChevronRight, BarChart, Users, Activity, FileText, Wallet, Coins } from "lucide-react";
 import { Link } from "react-router-dom";
-
-// Mock data for the dashboard
-const myProjects = [
-  {
-    id: "1",
-    title: "Cross-chain DEX Integration",
-    description: "Looking for partners to integrate our DEX across multiple blockchains to increase liquidity and trading volume.",
-    company: "SwapX Protocol",
-    logo: "",
-    partnershipType: ["Technical Integration", "Liquidity"],
-  },
-  {
-    id: "2",
-    title: "NFT Marketplace Expansion",
-    description: "Seeking blockchain partners for our NFT marketplace to expand our ecosystem and reach new communities.",
-    company: "ArtBlock Chain",
-    logo: "",
-    partnershipType: ["Marketing", "Technical Integration"],
-  },
-];
-
-const matchedPartnerships = [
-  {
-    id: "101",
-    title: "DeFi Lending Platform",
-    description: "Innovative lending platform with unique yield optimization strategies.",
-    company: "LendBlock Finance",
-    logo: "",
-    partnershipType: ["Technical Integration", "Liquidity"],
-    matchScore: 92,
-    status: "pending" as "pending" | "accepted" | "rejected",
-  },
-  {
-    id: "102",
-    title: "Cross-chain Bridge Protocol",
-    description: "Secure bridge solution connecting multiple blockchains with minimal fees.",
-    company: "BridgeX Network",
-    logo: "",
-    partnershipType: ["Technical Integration", "Security"],
-    matchScore: 87,
-    status: "accepted" as "pending" | "accepted" | "rejected",
-  },
-  {
-    id: "103",
-    title: "Decentralized Identity Solution",
-    description: "Self-sovereign identity platform for Web3 applications.",
-    company: "IdentityChain",
-    logo: "",
-    partnershipType: ["Technical Integration", "Research"],
-    matchScore: 75,
-    status: "rejected" as "pending" | "accepted" | "rejected",
-  },
-];
-
-const partnershipSuggestions = [
-  {
-    id: "201",
-    companyName: "TokenSwap Finance",
-    projectName: "Automated Market Maker",
-    logo: "",
-    description: "Leading AMM looking for cross-chain partners to expand liquidity pools and trading pairs.",
-    matchScore: 94,
-    matchReasons: [
-      "Compatible technical requirements",
-      "Complementary user bases",
-      "Aligned roadmap milestones",
-      "Similar market focus on DeFi",
-    ],
-    blockchains: ["Ethereum", "Polygon", "Avalanche"],
-  },
-  {
-    id: "202",
-    companyName: "ChainData Labs",
-    projectName: "On-chain Analytics Platform",
-    logo: "",
-    description: "Advanced blockchain analytics platform seeking integration partners for expanded data services.",
-    matchScore: 88,
-    matchReasons: [
-      "Technical stack compatibility",
-      "Mutual benefit for both user bases",
-      "Complementary services",
-      "Strategic alignment",
-    ],
-    blockchains: ["Ethereum", "Solana", "NEAR"],
-  },
-  {
-    id: "203",
-    companyName: "SecureBlock Protocol",
-    projectName: "Multi-sig Wallet Solution",
-    logo: "",
-    description: "Enterprise-grade multi-signature wallet solution looking for integration partners.",
-    matchScore: 79,
-    matchReasons: [
-      "Security focus alignment",
-      "Enterprise customer overlap",
-      "Technical compatibility",
-    ],
-    blockchains: ["Ethereum", "Binance Smart Chain"],
-  },
-];
-
-// New stats data
-const dashboardStats = [
-  { label: "Partnership Matches", value: "7", icon: <Users className="h-5 w-5 text-blockchain-500" />, change: "+3 this week" },
-  { label: "Your Projects", value: "2", icon: <FileText className="h-5 w-5 text-blockchain-500" />, change: "Active" },
-  { label: "ChainMatch Score", value: "86", icon: <BarChart className="h-5 w-5 text-blockchain-500" />, change: "+12 points" },
-  { label: "CMATCH Tokens", value: "500", icon: <Coins className="h-5 w-5 text-blockchain-500" />, change: "+50 last month" },
-];
+import PartnershipSuggestion from "@/components/dashboard/PartnershipSuggestion";
 
 const Dashboard = () => {
-  const [suggestions, setSuggestions] = useState(partnershipSuggestions);
-  const [partnerships, setPartnerships] = useState(matchedPartnerships);
-
-  const handleAcceptSuggestion = (id: string) => {
-    setSuggestions(suggestions.filter((suggestion) => suggestion.id !== id));
-    // In a real app, you'd send this to your backend
-  };
-
-  const handleDeclineSuggestion = (id: string) => {
-    setSuggestions(suggestions.filter((suggestion) => suggestion.id !== id));
-    // In a real app, you'd send this to your backend
-  };
-
+  const [activeTab, setActiveTab] = useState("overview");
+  
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-grow py-10 bg-gradient-to-br from-white to-blockchain-50/30">
+      <main className="flex-grow py-10">
         <div className="container">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-            <div>
-              <h1 className="font-display text-3xl font-bold tracking-tight">Dashboard</h1>
-              <p className="text-muted-foreground">
-                Manage your projects and partnerships in one place
-              </p>
-            </div>
-            <div className="flex gap-2">
-              <Link to="/explore">
-                <Button variant="outline" className="flex items-center gap-2">
-                  <Search className="h-4 w-4" />
-                  <span>Find Partners</span>
-                </Button>
-              </Link>
-              <Link to="/post-project">
-                <Button className="bg-blockchain-500 hover:bg-blockchain-600 flex items-center gap-2">
-                  <Plus className="h-4 w-4" />
-                  <span>New Project</span>
-                </Button>
-              </Link>
-            </div>
-          </div>
-          
-          {/* Stats Row */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            {dashboardStats.map((stat, index) => (
-              <Card key={index} className="p-4 border border-blockchain-100 bg-white hover:shadow-md transition-all">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="bg-blockchain-50 p-2 rounded-full">
-                      {stat.icon}
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">{stat.label}</p>
-                      <p className="text-2xl font-bold">{stat.value}</p>
-                    </div>
+          {/* Coming Soon Overlay */}
+          <div className="relative">
+            {/* Blur overlay with Coming Soon message */}
+            <div className="absolute inset-0 backdrop-blur-md bg-white/80 dark:bg-blockchain-900/80 z-10 flex flex-col items-center justify-center rounded-lg">
+              <div className="text-center max-w-md">
+                <div className="inline-block mb-4 relative">
+                  <div className="flex items-center justify-center h-20 w-20 rounded-full bg-blockchain-100 text-blockchain-500 mx-auto overflow-hidden">
+                    <div className="absolute inset-0 bg-blockchain-100 opacity-30 animate-pulse" style={{ animationDuration: '3s' }}></div>
+                    <Wallet className="h-10 w-10 relative z-10" />
                   </div>
-                  <div className="text-xs text-green-600">{stat.change}</div>
                 </div>
-              </Card>
-            ))}
-          </div>
-          
-          {/* Recent Activity */}
-          <div className="bg-white rounded-xl p-4 border border-blockchain-100 mb-8">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="font-display text-xl font-medium">Recent Activity</h2>
-              <Button variant="ghost" className="text-sm text-blockchain-500">View All</Button>
-            </div>
-            <div className="space-y-4">
-              <div className="flex gap-3 items-center p-3 border-b border-blockchain-50">
-                <div className="bg-green-100 p-2 rounded-full">
-                  <Bell className="h-4 w-4 text-green-600" />
-                </div>
-                <div className="flex-grow">
-                  <p className="text-sm">New partnership match: <span className="font-medium">TokenSwap Finance</span></p>
-                  <p className="text-xs text-muted-foreground">35 minutes ago</p>
-                </div>
-                <Button variant="outline" size="sm">View</Button>
-              </div>
-              <div className="flex gap-3 items-center p-3 border-b border-blockchain-50">
-                <div className="bg-blockchain-100 p-2 rounded-full">
-                  <Wallet className="h-4 w-4 text-blockchain-500" />
-                </div>
-                <div className="flex-grow">
-                  <p className="text-sm">You earned <span className="font-medium">50 CMATCH</span> tokens</p>
-                  <p className="text-xs text-muted-foreground">2 hours ago</p>
-                </div>
-                <Button variant="outline" size="sm">Details</Button>
-              </div>
-              <div className="flex gap-3 items-center p-3">
-                <div className="bg-blue-100 p-2 rounded-full">
-                  <FileText className="h-4 w-4 text-blue-600" />
-                </div>
-                <div className="flex-grow">
-                  <p className="text-sm"><span className="font-medium">BridgeX Network</span> accepted your partnership</p>
-                  <p className="text-xs text-muted-foreground">1 day ago</p>
-                </div>
-                <Button variant="outline" size="sm">Review</Button>
+                <h2 className="text-3xl font-display font-bold mb-3 bg-gradient-to-r from-blockchain-500 to-blockchain-700 bg-clip-text text-transparent">
+                  Coming Soon
+                </h2>
+                <p className="text-muted-foreground mb-6">
+                  We're currently building the Dashboard with powerful tools to manage your blockchain partnerships. Check back soon!
+                </p>
+                <Link to="/">
+                  <Button className="bg-blockchain-500 hover:bg-blockchain-600">
+                    Back to Home
+                    <ChevronRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
               </div>
             </div>
-          </div>
-
-          <Tabs defaultValue="matches" className="space-y-8">
-            <TabsList className="bg-white border border-blockchain-100 p-1">
-              <TabsTrigger value="matches" className="data-[state=active]:bg-blockchain-500 data-[state=active]:text-white">AI Matches</TabsTrigger>
-              <TabsTrigger value="projects" className="data-[state=active]:bg-blockchain-500 data-[state=active]:text-white">My Projects</TabsTrigger>
-              <TabsTrigger value="partnerships" className="data-[state=active]:bg-blockchain-500 data-[state=active]:text-white">Partnerships</TabsTrigger>
-            </TabsList>
             
-            <TabsContent value="matches" className="space-y-8">
-              <div className="space-y-6">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <h2 className="font-display text-xl font-medium">Suggested Partnerships</h2>
-                    <p className="text-sm text-muted-foreground">
-                      Based on your project requirements and AI matching
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <span>Sort by:</span>
-                    <select className="bg-transparent border border-blockchain-100 rounded px-2 py-1">
-                      <option>Match Score</option>
-                      <option>Recent</option>
-                    </select>
-                  </div>
-                </div>
-                
-                {suggestions.length > 0 ? (
-                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {suggestions.map((suggestion) => (
-                      <PartnershipSuggestion
-                        key={suggestion.id}
-                        suggestion={suggestion}
-                        onAccept={handleAcceptSuggestion}
-                        onDecline={handleDeclineSuggestion}
-                      />
-                    ))}
-                  </div>
-                ) : (
-                  <div className="p-10 rounded-xl border border-blockchain-100 bg-white text-center">
-                    <div className="bg-blockchain-50 h-16 w-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Zap className="h-8 w-8 text-blockchain-500" />
+            {/* Original Dashboard content (blurred) */}
+            <div className="space-y-6">
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <h1 className="font-display text-3xl font-bold tracking-tight">Dashboard</h1>
+                <Button className="bg-blockchain-500 hover:bg-blockchain-600">
+                  Add New Partnership <ChevronRight className="ml-2 h-4 w-4" />
+                </Button>
+              </div>
+              
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+                <Card>
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between space-x-4">
+                      <div>
+                        <p className="text-sm font-medium text-muted-foreground mb-1">Active Partnerships</p>
+                        <div className="text-2xl font-bold">3</div>
+                      </div>
+                      <div className="h-12 w-12 rounded-full bg-blockchain-100 flex items-center justify-center">
+                        <Users className="h-6 w-6 text-blockchain-500" />
+                      </div>
                     </div>
-                    <h3 className="font-display text-lg font-medium mb-2">No New Matches</h3>
-                    <p className="text-muted-foreground max-w-md mx-auto">
-                      Our AI agent is actively looking for perfect matches for your projects. Check back soon!
-                    </p>
-                    <div className="mt-6">
-                      <Button variant="outline" className="border-blockchain-500 text-blockchain-500">
-                        Refine Your Project Details
-                      </Button>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between space-x-4">
+                      <div>
+                        <p className="text-sm font-medium text-muted-foreground mb-1">Total Revenue</p>
+                        <div className="text-2xl font-bold">$12,450</div>
+                      </div>
+                      <div className="h-12 w-12 rounded-full bg-blockchain-100 flex items-center justify-center">
+                        <Wallet className="h-6 w-6 text-blockchain-500" />
+                      </div>
                     </div>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between space-x-4">
+                      <div>
+                        <p className="text-sm font-medium text-muted-foreground mb-1">Partnership Activity</p>
+                        <div className="text-2xl font-bold">+12%</div>
+                      </div>
+                      <div className="h-12 w-12 rounded-full bg-blockchain-100 flex items-center justify-center">
+                        <Activity className="h-6 w-6 text-blockchain-500" />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between space-x-4">
+                      <div>
+                        <p className="text-sm font-medium text-muted-foreground mb-1">Tokens Earned</p>
+                        <div className="text-2xl font-bold">567</div>
+                      </div>
+                      <div className="h-12 w-12 rounded-full bg-blockchain-100 flex items-center justify-center">
+                        <Coins className="h-6 w-6 text-blockchain-500" />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+              
+              <Tabs
+                defaultValue="overview"
+                value={activeTab}
+                onValueChange={setActiveTab}
+                className="space-y-4"
+              >
+                <TabsList>
+                  <TabsTrigger value="overview">Overview</TabsTrigger>
+                  <TabsTrigger value="partnerships">Partnerships</TabsTrigger>
+                  <TabsTrigger value="analytics">Analytics</TabsTrigger>
+                  <TabsTrigger value="documents">Documents</TabsTrigger>
+                </TabsList>
+                <TabsContent value="overview" className="space-y-4">
+                  <div className="grid gap-6 md:grid-cols-2">
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="flex items-center justify-between">
+                          <span>Revenue Overview</span>
+                          <BarChart className="h-5 w-5 text-blockchain-500" />
+                        </CardTitle>
+                        <CardDescription>Your partnership revenue for the last 30 days</CardDescription>
+                      </CardHeader>
+                      <CardContent className="pl-2">
+                        <div className="h-[200px] bg-blockchain-50"></div>
+                      </CardContent>
+                    </Card>
+                    
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="flex items-center justify-between">
+                          <span>Partnership Status</span>
+                          <Users className="h-5 w-5 text-blockchain-500" />
+                        </CardTitle>
+                        <CardDescription>Current state of your active partnerships</CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-4">
+                          <div className="flex items-center justify-between pb-2 border-b">
+                            <div className="font-medium">Protocol X Integration</div>
+                            <div className="bg-green-100 text-green-700 px-2 py-1 rounded text-xs">Active</div>
+                          </div>
+                          <div className="flex items-center justify-between pb-2 border-b">
+                            <div className="font-medium">DeFi Project Y Collaboration</div>
+                            <div className="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-xs">In Progress</div>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <div className="font-medium">NFT Platform Z Partnership</div>
+                            <div className="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs">Proposed</div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
                   </div>
-                )}
+                  
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center justify-between">
+                        <span>Recent Documents</span>
+                        <FileText className="h-5 w-5 text-blockchain-500" />
+                      </CardTitle>
+                      <CardDescription>Recently created or updated partnership documents</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between pb-2 border-b">
+                          <div className="flex items-center">
+                            <div className="h-10 w-10 bg-blockchain-100 rounded-md flex items-center justify-center mr-3">
+                              <FileText className="h-5 w-5 text-blockchain-500" />
+                            </div>
+                            <div>
+                              <div className="font-medium">Protocol X Agreement</div>
+                              <div className="text-xs text-muted-foreground">Updated 2 days ago</div>
+                            </div>
+                          </div>
+                          <Button variant="ghost" size="sm">View</Button>
+                        </div>
+                        
+                        <div className="flex items-center justify-between pb-2 border-b">
+                          <div className="flex items-center">
+                            <div className="h-10 w-10 bg-blockchain-100 rounded-md flex items-center justify-center mr-3">
+                              <FileText className="h-5 w-5 text-blockchain-500" />
+                            </div>
+                            <div>
+                              <div className="font-medium">Revenue Split Model</div>
+                              <div className="text-xs text-muted-foreground">Updated 1 week ago</div>
+                            </div>
+                          </div>
+                          <Button variant="ghost" size="sm">View</Button>
+                        </div>
+                        
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center">
+                            <div className="h-10 w-10 bg-blockchain-100 rounded-md flex items-center justify-center mr-3">
+                              <FileText className="h-5 w-5 text-blockchain-500" />
+                            </div>
+                            <div>
+                              <div className="font-medium">Partnership Proposal</div>
+                              <div className="text-xs text-muted-foreground">Created 2 weeks ago</div>
+                            </div>
+                          </div>
+                          <Button variant="ghost" size="sm">View</Button>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </TabsContent>
                 
-                <div className="flex justify-between mt-6">
-                  <Button variant="outline" size="sm" disabled className="flex items-center gap-1">
-                    <ArrowLeft className="h-4 w-4" />
-                    Previous
-                  </Button>
-                  <Button variant="outline" size="sm" className="flex items-center gap-1">
-                    Next
-                    <ArrowRight className="h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
-            </TabsContent>
-
-            <TabsContent value="projects" className="space-y-8">
-              <div className="space-y-6">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <h2 className="font-display text-xl font-medium">Your Projects</h2>
-                    <p className="text-sm text-muted-foreground">
-                      Manage your existing blockchain projects
-                    </p>
-                  </div>
-                  <Link to="/post-project">
-                    <Button className="bg-blockchain-500 hover:bg-blockchain-600 flex items-center gap-2">
-                      <Plus className="h-4 w-4" />
-                      New Project
-                    </Button>
-                  </Link>
-                </div>
-
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {myProjects.map((project) => (
-                    <ProjectCard key={project.id} project={project} />
-                  ))}
-                </div>
-              </div>
-            </TabsContent>
-
-            <TabsContent value="partnerships" className="space-y-8">
-              <div className="space-y-6">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <h2 className="font-display text-xl font-medium">Partnership Requests</h2>
-                    <p className="text-sm text-muted-foreground">
-                      Manage your existing and pending partnerships
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm">
-                    <span>Filter:</span>
-                    <select className="bg-transparent border border-blockchain-100 rounded px-2 py-1">
-                      <option>All</option>
-                      <option>Pending</option>
-                      <option>Accepted</option>
-                      <option>Rejected</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {partnerships.map((partnership) => (
-                    <ProjectCard
-                      key={partnership.id}
-                      project={partnership}
-                      isMatch={true}
-                    />
-                  ))}
-                </div>
-              </div>
-            </TabsContent>
-          </Tabs>
+                <TabsContent value="partnerships">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Active Partnerships</CardTitle>
+                      <CardDescription>Manage your ongoing blockchain partnerships</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-6">
+                        <PartnershipSuggestion 
+                          name="Protocol X"
+                          description="Layer 1 blockchain protocol with smart contract capabilities"
+                          compatibility={95}
+                          logo="https://cryptologos.cc/logos/ethereum-eth-logo.png"
+                          status="Active"
+                        />
+                        <PartnershipSuggestion 
+                          name="DeFi Project Y"
+                          description="Decentralized lending and borrowing platform"
+                          compatibility={87}
+                          logo="https://cryptologos.cc/logos/aave-aave-logo.png"
+                          status="In Progress"
+                        />
+                        <PartnershipSuggestion 
+                          name="NFT Platform Z"
+                          description="Digital art marketplace and NFT minting platform"
+                          logo="https://cryptologos.cc/logos/enjin-coin-enj-logo.png"
+                          compatibility={82}
+                          status="Proposed"
+                        />
+                      </div>
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+              </Tabs>
+            </div>
+          </div>
         </div>
       </main>
       <Footer />

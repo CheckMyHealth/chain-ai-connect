@@ -3,6 +3,9 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import ProjectForm from "@/components/project/ProjectForm";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ChevronRight, FileText } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const PostProject = () => {
   return (
@@ -17,17 +20,45 @@ const PostProject = () => {
             </p>
           </div>
 
-          <Card className="blockchain-card">
-            <CardHeader>
-              <CardTitle>Project Details</CardTitle>
-              <CardDescription>
-                Fill out the form below with information about your project and partnership requirements
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ProjectForm />
-            </CardContent>
-          </Card>
+          {/* Relative container for Card and Overlay */}
+          <div className="relative">
+            {/* Blur overlay with Coming Soon message */}
+            <div className="absolute inset-0 backdrop-blur-md bg-white/80 dark:bg-blockchain-900/80 z-10 flex flex-col items-center justify-center rounded-lg">
+              <div className="text-center max-w-md">
+                <div className="inline-block mb-4 relative">
+                  <div className="flex items-center justify-center h-20 w-20 rounded-full bg-blockchain-100 text-blockchain-500 mx-auto overflow-hidden">
+                    <div className="absolute inset-0 bg-blockchain-100 opacity-30 animate-pulse" style={{ animationDuration: '3s' }}></div>
+                    <FileText className="h-10 w-10 relative z-10" />
+                  </div>
+                </div>
+                <h2 className="text-3xl font-display font-bold mb-3 bg-gradient-to-r from-blockchain-500 to-blockchain-700 bg-clip-text text-transparent">
+                  Project Submission Coming Soon
+                </h2>
+                <p className="text-muted-foreground mb-6">
+                  We're currently finalizing the project submission form. Check back soon to post your blockchain project for partnership matching!
+                </p>
+                <Link to="/">
+                  <Button className="bg-blockchain-500 hover:bg-blockchain-600">
+                    Back to Home
+                    <ChevronRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
+              </div>
+            </div>
+            
+            {/* Original Post Project Form (blurred) */}
+            <Card className="blockchain-card">
+              <CardHeader>
+                <CardTitle>Project Details</CardTitle>
+                <CardDescription>
+                  Fill out the form below with information about your project and partnership requirements
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ProjectForm />
+              </CardContent>
+            </Card>
+          </div>
           
           <div className="mt-10">
             <h3 className="font-display text-xl font-medium mb-4">What happens next?</h3>

@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import Header from "@/components/layout/Header";
@@ -7,16 +6,17 @@ import { CircleCheck, Zap, Lock, Share, Database, Code } from "lucide-react";
 import FeaturesSection from "@/components/home/FeaturesSection";
 import HowItWorksSection from "@/components/home/HowItWorksSection";
 
+// Updated blockchain logos with static imports or reliable CDN sources
 const blockchainLogos = [
-  { name: "Ethereum", logo: "https://cryptologos.cc/logos/ethereum-eth-logo.svg?v=024" },
-  { name: "Polygon", logo: "https://cryptologos.cc/logos/polygon-matic-logo.svg?v=024" },
-  { name: "Solana", logo: "https://cryptologos.cc/logos/solana-sol-logo.svg?v=024" },
-  { name: "Avalanche", logo: "https://cryptologos.cc/logos/avalanche-avax-logo.svg?v=024" },
-  { name: "Binance", logo: "https://cryptologos.cc/logos/binance-coin-bnb-logo.svg?v=024" },
-  { name: "Polkadot", logo: "https://cryptologos.cc/logos/polkadot-new-dot-logo.svg?v=024" },
-  { name: "Cosmos", logo: "https://cryptologos.cc/logos/cosmos-atom-logo.svg?v=024" },
-  { name: "Cardano", logo: "https://cryptologos.cc/logos/cardano-ada-logo.svg?v=024" },
-  { name: "Algorand", logo: "https://cryptologos.cc/logos/algorand-algo-logo.svg?v=024" },
+  { name: "Ethereum", logo: "https://cryptologos.cc/logos/ethereum-eth-logo.png" },
+  { name: "Polygon", logo: "https://cryptologos.cc/logos/polygon-matic-logo.png" },
+  { name: "Solana", logo: "https://cryptologos.cc/logos/solana-sol-logo.png" },
+  { name: "Avalanche", logo: "https://cryptologos.cc/logos/avalanche-avax-logo.png" },
+  { name: "Binance", logo: "https://cryptologos.cc/logos/binance-coin-bnb-logo.png" },
+  { name: "Polkadot", logo: "https://cryptologos.cc/logos/polkadot-new-dot-logo.png" },
+  { name: "Cosmos", logo: "https://cryptologos.cc/logos/cosmos-atom-logo.png" },
+  { name: "Cardano", logo: "https://cryptologos.cc/logos/cardano-ada-logo.png" },
+  { name: "Algorand", logo: "https://cryptologos.cc/logos/algorand-algo-logo.png" },
 ];
 
 const Index = () => {
@@ -63,13 +63,13 @@ const Index = () => {
                 </Link>
               </div>
               
-              {/* Scrolling blockchain logos */}
+              {/* Updated scrolling blockchain logos */}
               <div className="mt-12 relative overflow-hidden h-16">
                 <div className="absolute flex gap-8 animate-[scroll_30s_linear_infinite] whitespace-nowrap">
                   {[...blockchainLogos, ...blockchainLogos].map((logo, index) => (
                     <div key={index} className="flex flex-col items-center justify-center">
                       <div className="h-8 w-8 flex items-center justify-center">
-                        <img src={logo.logo} alt={logo.name} className="h-full" />
+                        <img src={logo.logo} alt={logo.name} className="h-full object-contain" />
                       </div>
                       <span className="text-xs text-muted-foreground mt-1">{logo.name}</span>
                     </div>

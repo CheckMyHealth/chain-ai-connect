@@ -242,45 +242,6 @@ const HowItWorksSection = () => {
             </Button>
           </Link>
         </div>
-
-        {/* Add custom animation keyframes */}
-        <style jsx>{`
-          @keyframes orbit {
-            0% {
-              transform: translateX(-120px) translateY(0) scale(0.8);
-              opacity: 0.8;
-            }
-            25% {
-              transform: translateX(-60px) translateY(-80px) scale(1);
-              opacity: 1;
-            }
-            50% {
-              transform: translateX(60px) translateY(0) scale(0.8);
-              opacity: 0.8;
-            }
-            75% {
-              transform: translateX(-60px) translateY(80px) scale(1);
-              opacity: 1;
-            }
-            100% {
-              transform: translateX(-120px) translateY(0) scale(0.8);
-              opacity: 0.8;
-            }
-          }
-          .animate-orbit {
-            animation-name: orbit;
-            animation-duration: 12s;
-            animation-iteration-count: infinite;
-            animation-timing-function: ease-in-out;
-          }
-          @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-          }
-          .animate-float {
-            animation: float 6s ease-in-out infinite;
-          }
-        `}</style>
       </div>
     </section>
   );
