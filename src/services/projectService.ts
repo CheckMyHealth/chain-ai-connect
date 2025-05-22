@@ -1,6 +1,7 @@
 
 import { supabase } from '@/integrations/supabase/client';
 import { Project, Match } from '@/types/database.types';
+import { matchingService } from './matchingService';
 
 export const projectService = {
   async createProject(projectData: Omit<Project, 'id' | 'user_id' | 'status' | 'created_at' | 'updated_at'>) {
@@ -26,24 +27,8 @@ export const projectService = {
   
   async analyzeProject(projectId: string) {
     try {
-      const response = await fetch(
-        `https://ttfhpjspuoklbeqyamvi.supabase.co/functions/v1/analyze-project`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`
-          },
-          body: JSON.stringify({ projectId })
-        }
-      );
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to analyze project');
-      }
-
-      return await response.json();
+      // Use the enhanced AI matching function
+      return await matchingService.analyzeProjectWithAI(projectId);
     } catch (error) {
       console.error('Error analyzing project:', error);
       throw error;

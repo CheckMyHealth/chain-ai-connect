@@ -7,6 +7,51 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Vector similarity function
+function cosineSimilarity(vecA: number[], vecB: number[]): number {
+  const dotProduct = vecA.reduce((acc, val, i) => acc + val * vecB[i], 0);
+  const magnitudeA = Math.sqrt(vecA.reduce((acc, val) => acc + val * val, 0));
+  const magnitudeB = Math.sqrt(vecB.reduce((acc, val) => acc + val * val, 0));
+  return dotProduct / (magnitudeA * magnitudeB);
+}
+
+// Simple text analyzer to create embeddings (in production, use a real embedding model)
+function createSimpleEmbedding(text: string): number[] {
+  // This is a very simplistic embedding function for demonstration
+  // In a real application, you would use a proper embedding model
+  
+  // Normalize text
+  const normalizedText = text.toLowerCase().replace(/[^\w\s]/g, '');
+  
+  // Get key terms (basic TF approach)
+  const terms = normalizedText.split(/\s+/);
+  const termFrequency: Record<string, number> = {};
+  
+  const stopWords = new Set(['a', 'an', 'the', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'with', 'by', 'about', 'as']);
+  
+  terms.forEach(term => {
+    if (!stopWords.has(term) && term.length > 1) {
+      termFrequency[term] = (termFrequency[term] || 0) + 1;
+    }
+  });
+  
+  // Create a simple embedding based on common keywords
+  const keyTerms = [
+    'blockchain', 'defi', 'nft', 'token', 'crypto', 'web3', 'dao', 'smart', 'contract',
+    'ethereum', 'solana', 'bitcoin', 'polygon', 'avalanche', 'investment', 'partnership',
+    'technical', 'marketing', 'technology', 'product', 'finance', 'research', 'development'
+  ];
+  
+  // Create a vector based on term frequency of key terms
+  const embedding = keyTerms.map(term => {
+    return termFrequency[term] || 0;
+  });
+  
+  // Normalize the embedding
+  const magnitude = Math.sqrt(embedding.reduce((acc, val) => acc + val * val, 0));
+  return magnitude === 0 ? embedding : embedding.map(val => val / magnitude);
+}
+
 serve(async (req) => {
   // Handle CORS preflight request
   if (req.method === 'OPTIONS') {
@@ -72,23 +117,71 @@ serve(async (req) => {
       });
     }
     
+    // Prepare project data for analysis
+    const projectContent = `
+      ${project.title} 
+      ${project.description} 
+      ${project.requirements} 
+      ${project.benefits}
+      ${project.partnership_type.join(' ')}
+      ${project.blockchain}
+    `;
+    
+    // Create project embedding
+    const projectEmbedding = createSimpleEmbedding(projectContent);
+    
     const matches = [];
     
     // Analyze each profile for compatibility
     for (const profile of profiles) {
-      const matchScore = calculateMatchScore(project, profile);
+      // Create profile embedding
+      const profileContent = `
+        ${profile.full_name || ''} 
+        ${profile.company_name || ''} 
+        ${profile.bio || ''}
+        ${profile.blockchain_preference ? profile.blockchain_preference.join(' ') : ''}
+        ${profile.partnership_interests ? profile.partnership_interests.join(' ') : ''}
+      `;
       
-      if (matchScore > 30) {  // Only create matches for scores above a threshold
+      const profileEmbedding = createSimpleEmbedding(profileContent);
+      
+      // Calculate similarity using cosine similarity
+      const semanticSimilarity = cosineSimilarity(projectEmbedding, profileEmbedding);
+      
+      // Calculate feature-based match score
+      let featureMatchScore = 50; // Base score
+      
+      // Check blockchain preference match
+      if (profile.blockchain_preference && profile.blockchain_preference.includes(project.blockchain)) {
+        featureMatchScore += 20;
+      }
+      
+      // Check partnership interests match
+      if (profile.partnership_interests && project.partnership_type) {
+        const matchingInterests = project.partnership_type.filter(type => 
+          profile.partnership_interests!.includes(type)
+        );
+        
+        if (matchingInterests.length > 0) {
+          featureMatchScore += 10 * matchingInterests.length;
+        }
+      }
+      
+      // Combine semantic and feature-based scores
+      const combinedScore = Math.round((semanticSimilarity * 50) + (featureMatchScore * 0.5));
+      const finalScore = Math.min(100, Math.max(0, combinedScore));
+      
+      if (finalScore > 30) {  // Only create matches for scores above a threshold
         matches.push({
           project_id: projectId,
           user_id: profile.id,
-          match_score: matchScore,
+          match_score: finalScore,
           status: 'pending',
         });
       }
     }
     
-    console.log(`Found ${matches.length} potential matches`);
+    console.log(`Found ${matches.length} potential matches with NLP analysis`);
     
     // Insert matches into the database
     if (matches.length > 0) {
@@ -117,7 +210,8 @@ serve(async (req) => {
     
     return new Response(JSON.stringify({ 
       success: true, 
-      message: `Analysis complete. Found ${matches.length} potential matches.` 
+      message: `Advanced analysis complete. Found ${matches.length} potential matches.`,
+      matchCount: matches.length
     }), {
       status: 200,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -130,27 +224,3 @@ serve(async (req) => {
     });
   }
 });
-
-// Calculate match score between project and profile
-function calculateMatchScore(project, profile) {
-  let score = 50; // Base score
-  
-  // Check blockchain preference match
-  if (profile.blockchain_preference && profile.blockchain_preference.includes(project.blockchain)) {
-    score += 20;
-  }
-  
-  // Check partnership interests match
-  if (profile.partnership_interests && project.partnership_type) {
-    const matchingInterests = project.partnership_type.filter(type => 
-      profile.partnership_interests.includes(type)
-    );
-    
-    if (matchingInterests.length > 0) {
-      score += 10 * matchingInterests.length;
-    }
-  }
-  
-  // Normalize the score to be between 0-100
-  return Math.min(100, Math.max(0, score));
-}
