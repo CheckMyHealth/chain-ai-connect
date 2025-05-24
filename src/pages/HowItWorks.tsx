@@ -16,7 +16,7 @@ const HowItWorks = () => {
           <div className="container">
             <div className="text-center max-w-3xl mx-auto">
               <h1 className="font-display text-4xl md:text-5xl font-bold tracking-tight mb-6">
-                How ChainPartner <span className="text-blockchain-500">Works</span>
+                How ChainMatch.AI <span className="text-blockchain-500">Works</span>
               </h1>
               <p className="text-xl text-muted-foreground mb-8">
                 Discover how our AI-powered platform connects blockchain projects and creates meaningful partnerships
@@ -92,7 +92,7 @@ const HowItWorks = () => {
         <section className="py-20 bg-muted/30">
           <div className="container">
             <div className="text-center mb-16">
-              <h2 className="font-display text-3xl font-bold mb-4">Why Choose ChainPartner?</h2>
+              <h2 className="font-display text-3xl font-bold mb-4">Why Choose ChainMatch.AI?</h2>
               <p className="text-muted-foreground max-w-2xl mx-auto">
                 We provide the tools and intelligence you need to form successful blockchain partnerships
               </p>
@@ -180,7 +180,7 @@ const HowItWorks = () => {
             <div className="text-center max-w-3xl mx-auto">
               <h2 className="font-display text-3xl font-bold mb-6">Ready to Find Your Perfect Partner?</h2>
               <p className="text-xl text-muted-foreground mb-8">
-                Join thousands of blockchain projects already using ChainPartner to build strategic partnerships
+                Join thousands of blockchain projects already using ChainMatch.AI to build strategic partnerships
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button asChild className="bg-blockchain-500 hover:bg-blockchain-600">
