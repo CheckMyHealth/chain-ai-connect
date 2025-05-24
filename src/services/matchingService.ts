@@ -35,7 +35,7 @@ export const matchingService = {
       .select(`
         *,
         projects:project_id (*),
-        profiles:user_id (*)
+        profiles!matches_user_id_fkey (*)
       `)
       .eq('id', matchId)
       .single();
@@ -48,7 +48,7 @@ export const matchingService = {
     };
   },
   
-  async getRecommendedMatches(limit: number = 5): Promise<Match[]> {
+  async getRecommendedMatches(limit: number = 5): Promise<any[]> {
     const user = await supabase.auth.getUser();
     if (!user.data.user) {
       throw new Error('User not authenticated');
@@ -58,7 +58,7 @@ export const matchingService = {
       .from('matches')
       .select(`
         *,
-        profiles:user_id (
+        profiles!matches_user_id_fkey (
           id,
           full_name,
           company_name,
@@ -73,6 +73,6 @@ export const matchingService = {
       .limit(limit);
     
     if (error) throw error;
-    return data;
+    return data || [];
   }
 };
