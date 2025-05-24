@@ -6,17 +6,16 @@ import { CircleCheck, Zap, Lock, Share, Database, Code } from "lucide-react";
 import FeaturesSection from "@/components/home/FeaturesSection";
 import HowItWorksSection from "@/components/home/HowItWorksSection";
 
-// Updated blockchain logos with direct image paths
 const blockchainLogos = [
-  { name: "Ethereum", logo: "https://cryptologos.cc/logos/ethereum-eth-logo.svg?v=025" },
-  { name: "Polygon", logo: "https://cryptologos.cc/logos/polygon-matic-logo.svg?v=025" },
-  { name: "Solana", logo: "https://cryptologos.cc/logos/solana-sol-logo.svg?v=025" },
-  { name: "Avalanche", logo: "https://cryptologos.cc/logos/avalanche-avax-logo.svg?v=025" },
-  { name: "Binance", logo: "https://cryptologos.cc/logos/bnb-bnb-logo.svg?v=025" },
-  { name: "Polkadot", logo: "https://cryptologos.cc/logos/polkadot-new-dot-logo.svg?v=025" },
-  { name: "Cosmos", logo: "https://cryptologos.cc/logos/cosmos-atom-logo.svg?v=025" },
-  { name: "Cardano", logo: "https://cryptologos.cc/logos/cardano-ada-logo.svg?v=025" },
-  { name: "Algorand", logo: "https://cryptologos.cc/logos/algorand-algo-logo.svg?v=025" },
+  { name: "Ethereum", logo: "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/svg/color/eth.svg", fallback: "ETH" },
+  { name: "Polygon", logo: "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/svg/color/matic.svg", fallback: "MATIC" },
+  { name: "Solana", logo: "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/svg/color/sol.svg", fallback: "SOL" },
+  { name: "Avalanche", logo: "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/svg/color/avax.svg", fallback: "AVAX" },
+  { name: "Binance", logo: "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/svg/color/bnb.svg", fallback: "BNB" },
+  { name: "Polkadot", logo: "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/svg/color/dot.svg", fallback: "DOT" },
+  { name: "Cosmos", logo: "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/svg/color/atom.svg", fallback: "ATOM" },
+  { name: "Cardano", logo: "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/svg/color/ada.svg", fallback: "ADA" },
+  { name: "Algorand", logo: "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/svg/color/algo.svg", fallback: "ALGO" },
 ];
 
 const Index = () => {
