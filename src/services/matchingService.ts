@@ -1,6 +1,5 @@
 
 import { supabase } from '@/integrations/supabase/client';
-import { Project, Match, Profile } from '@/types/database.types';
 
 export const matchingService = {
   async analyzeProjectWithAI(projectId: string) {
@@ -29,7 +28,7 @@ export const matchingService = {
     }
   },
   
-  async getProjectMatchDetails(matchId: string): Promise<{match: Match, project: Project, profile: Profile}> {
+  async getProjectMatchDetails(matchId: string) {
     const { data, error } = await supabase
       .from('matches')
       .select(`
@@ -48,7 +47,7 @@ export const matchingService = {
     };
   },
   
-  async getRecommendedMatches(limit: number = 5): Promise<any[]> {
+  async getRecommendedMatches(limit: number = 5) {
     const user = await supabase.auth.getUser();
     if (!user.data.user) {
       throw new Error('User not authenticated');

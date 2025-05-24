@@ -57,226 +57,230 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-grow py-10">
+      <main className="flex-grow py-10 relative">
         <div className="container">
-          {/* Coming Soon Overlay */}
-          <div className="relative">
-            {/* Blur overlay with Coming Soon message with glassmorphism effect */}
-            <div className="absolute inset-0 backdrop-blur-md bg-white/50 dark:bg-blockchain-900/50 z-10 flex flex-col items-center justify-center rounded-lg border border-white/20 shadow-lg">
-              <div className="text-center max-w-md">
-                <div className="inline-block mb-4 relative">
-                  <div className="flex items-center justify-center h-20 w-20 rounded-full bg-blockchain-100 text-blockchain-500 mx-auto overflow-hidden">
-                    <div className="absolute inset-0 bg-blockchain-100 opacity-30 animate-pulse" style={{ animationDuration: '3s' }}></div>
-                    <Wallet className="h-10 w-10 relative z-10" />
-                  </div>
-                </div>
-                <h2 className="text-3xl font-display font-bold mb-3 bg-gradient-to-r from-blockchain-500 to-blockchain-700 bg-clip-text text-transparent">
-                  Coming Soon
-                </h2>
-                <p className="text-muted-foreground mb-6">
-                  We're currently building the Dashboard with powerful tools to manage your blockchain partnerships. Check back soon!
-                </p>
-                <Link to="/">
-                  <Button className="bg-blockchain-500 hover:bg-blockchain-600">
-                    Back to Home
-                    <ChevronRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </Link>
-              </div>
+          {/* Original Dashboard content */}
+          <div className="space-y-6">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <h1 className="font-display text-3xl font-bold tracking-tight">Dashboard</h1>
+              <Button className="bg-blockchain-500 hover:bg-blockchain-600">
+                Add New Partnership <ChevronRight className="ml-2 h-4 w-4" />
+              </Button>
             </div>
             
-            {/* Original Dashboard content (blurred) */}
-            <div className="space-y-6">
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                <h1 className="font-display text-3xl font-bold tracking-tight">Dashboard</h1>
-                <Button className="bg-blockchain-500 hover:bg-blockchain-600">
-                  Add New Partnership <ChevronRight className="ml-2 h-4 w-4" />
-                </Button>
-              </div>
-              
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-                <Card>
-                  <CardContent className="p-6">
-                    <div className="flex items-center justify-between space-x-4">
-                      <div>
-                        <p className="text-sm font-medium text-muted-foreground mb-1">Active Partnerships</p>
-                        <div className="text-2xl font-bold">3</div>
-                      </div>
-                      <div className="h-12 w-12 rounded-full bg-blockchain-100 flex items-center justify-center">
-                        <Users className="h-6 w-6 text-blockchain-500" />
-                      </div>
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between space-x-4">
+                    <div>
+                      <p className="text-sm font-medium text-muted-foreground mb-1">Active Partnerships</p>
+                      <div className="text-2xl font-bold">3</div>
                     </div>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardContent className="p-6">
-                    <div className="flex items-center justify-between space-x-4">
-                      <div>
-                        <p className="text-sm font-medium text-muted-foreground mb-1">Total Revenue</p>
-                        <div className="text-2xl font-bold">$12,450</div>
-                      </div>
-                      <div className="h-12 w-12 rounded-full bg-blockchain-100 flex items-center justify-center">
-                        <Wallet className="h-6 w-6 text-blockchain-500" />
-                      </div>
+                    <div className="h-12 w-12 rounded-full bg-blockchain-100 flex items-center justify-center">
+                      <Users className="h-6 w-6 text-blockchain-500" />
                     </div>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardContent className="p-6">
-                    <div className="flex items-center justify-between space-x-4">
-                      <div>
-                        <p className="text-sm font-medium text-muted-foreground mb-1">Partnership Activity</p>
-                        <div className="text-2xl font-bold">+12%</div>
-                      </div>
-                      <div className="h-12 w-12 rounded-full bg-blockchain-100 flex items-center justify-center">
-                        <Activity className="h-6 w-6 text-blockchain-500" />
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardContent className="p-6">
-                    <div className="flex items-center justify-between space-x-4">
-                      <div>
-                        <p className="text-sm font-medium text-muted-foreground mb-1">Tokens Earned</p>
-                        <div className="text-2xl font-bold">567</div>
-                      </div>
-                      <div className="h-12 w-12 rounded-full bg-blockchain-100 flex items-center justify-center">
-                        <Coins className="h-6 w-6 text-blockchain-500" />
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-              
-              <Tabs
-                defaultValue="overview"
-                value={activeTab}
-                onValueChange={setActiveTab}
-                className="space-y-4"
-              >
-                <TabsList>
-                  <TabsTrigger value="overview">Overview</TabsTrigger>
-                  <TabsTrigger value="partnerships">Partnerships</TabsTrigger>
-                  <TabsTrigger value="analytics">Analytics</TabsTrigger>
-                  <TabsTrigger value="documents">Documents</TabsTrigger>
-                </TabsList>
-                <TabsContent value="overview" className="space-y-4">
-                  <div className="grid gap-6 md:grid-cols-2">
-                    <Card>
-                      <CardHeader>
-                        <CardTitle className="flex items-center justify-between">
-                          <span>Revenue Overview</span>
-                          <BarChart className="h-5 w-5 text-blockchain-500" />
-                        </CardTitle>
-                        <CardDescription>Your partnership revenue for the last 30 days</CardDescription>
-                      </CardHeader>
-                      <CardContent className="pl-2">
-                        <div className="h-[200px] bg-blockchain-50"></div>
-                      </CardContent>
-                    </Card>
-                    
-                    <Card>
-                      <CardHeader>
-                        <CardTitle className="flex items-center justify-between">
-                          <span>Partnership Status</span>
-                          <Users className="h-5 w-5 text-blockchain-500" />
-                        </CardTitle>
-                        <CardDescription>Current state of your active partnerships</CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="space-y-4">
-                          <div className="flex items-center justify-between pb-2 border-b">
-                            <div className="font-medium">Protocol X Integration</div>
-                            <div className="bg-green-100 text-green-700 px-2 py-1 rounded text-xs">Active</div>
-                          </div>
-                          <div className="flex items-center justify-between pb-2 border-b">
-                            <div className="font-medium">DeFi Project Y Collaboration</div>
-                            <div className="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-xs">In Progress</div>
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <div className="font-medium">NFT Platform Z Partnership</div>
-                            <div className="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs">Proposed</div>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
                   </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between space-x-4">
+                    <div>
+                      <p className="text-sm font-medium text-muted-foreground mb-1">Total Revenue</p>
+                      <div className="text-2xl font-bold">$12,450</div>
+                    </div>
+                    <div className="h-12 w-12 rounded-full bg-blockchain-100 flex items-center justify-center">
+                      <Wallet className="h-6 w-6 text-blockchain-500" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between space-x-4">
+                    <div>
+                      <p className="text-sm font-medium text-muted-foreground mb-1">Partnership Activity</p>
+                      <div className="text-2xl font-bold">+12%</div>
+                    </div>
+                    <div className="h-12 w-12 rounded-full bg-blockchain-100 flex items-center justify-center">
+                      <Activity className="h-6 w-6 text-blockchain-500" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between space-x-4">
+                    <div>
+                      <p className="text-sm font-medium text-muted-foreground mb-1">Tokens Earned</p>
+                      <div className="text-2xl font-bold">567</div>
+                    </div>
+                    <div className="h-12 w-12 rounded-full bg-blockchain-100 flex items-center justify-center">
+                      <Coins className="h-6 w-6 text-blockchain-500" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+            
+            <Tabs
+              defaultValue="overview"
+              value={activeTab}
+              onValueChange={setActiveTab}
+              className="space-y-4"
+            >
+              <TabsList>
+                <TabsTrigger value="overview">Overview</TabsTrigger>
+                <TabsTrigger value="partnerships">Partnerships</TabsTrigger>
+                <TabsTrigger value="analytics">Analytics</TabsTrigger>
+                <TabsTrigger value="documents">Documents</TabsTrigger>
+              </TabsList>
+              <TabsContent value="overview" className="space-y-4">
+                <div className="grid gap-6 md:grid-cols-2">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center justify-between">
+                        <span>Revenue Overview</span>
+                        <BarChart className="h-5 w-5 text-blockchain-500" />
+                      </CardTitle>
+                      <CardDescription>Your partnership revenue for the last 30 days</CardDescription>
+                    </CardHeader>
+                    <CardContent className="pl-2">
+                      <div className="h-[200px] bg-blockchain-50"></div>
+                    </CardContent>
+                  </Card>
                   
                   <Card>
                     <CardHeader>
                       <CardTitle className="flex items-center justify-between">
-                        <span>Recent Documents</span>
-                        <FileText className="h-5 w-5 text-blockchain-500" />
+                        <span>Partnership Status</span>
+                        <Users className="h-5 w-5 text-blockchain-500" />
                       </CardTitle>
-                      <CardDescription>Recently created or updated partnership documents</CardDescription>
+                      <CardDescription>Current state of your active partnerships</CardDescription>
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-4">
                         <div className="flex items-center justify-between pb-2 border-b">
-                          <div className="flex items-center">
-                            <div className="h-10 w-10 bg-blockchain-100 rounded-md flex items-center justify-center mr-3">
-                              <FileText className="h-5 w-5 text-blockchain-500" />
-                            </div>
-                            <div>
-                              <div className="font-medium">Protocol X Agreement</div>
-                              <div className="text-xs text-muted-foreground">Updated 2 days ago</div>
-                            </div>
-                          </div>
-                          <Button variant="ghost" size="sm">View</Button>
+                          <div className="font-medium">Protocol X Integration</div>
+                          <div className="bg-green-100 text-green-700 px-2 py-1 rounded text-xs">Active</div>
                         </div>
-                        
                         <div className="flex items-center justify-between pb-2 border-b">
-                          <div className="flex items-center">
-                            <div className="h-10 w-10 bg-blockchain-100 rounded-md flex items-center justify-center mr-3">
-                              <FileText className="h-5 w-5 text-blockchain-500" />
-                            </div>
-                            <div>
-                              <div className="font-medium">Revenue Split Model</div>
-                              <div className="text-xs text-muted-foreground">Updated 1 week ago</div>
-                            </div>
-                          </div>
-                          <Button variant="ghost" size="sm">View</Button>
+                          <div className="font-medium">DeFi Project Y Collaboration</div>
+                          <div className="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-xs">In Progress</div>
                         </div>
-                        
                         <div className="flex items-center justify-between">
-                          <div className="flex items-center">
-                            <div className="h-10 w-10 bg-blockchain-100 rounded-md flex items-center justify-center mr-3">
-                              <FileText className="h-5 w-5 text-blockchain-500" />
-                            </div>
-                            <div>
-                              <div className="font-medium">Partnership Proposal</div>
-                              <div className="text-xs text-muted-foreground">Created 2 weeks ago</div>
-                            </div>
-                          </div>
-                          <Button variant="ghost" size="sm">View</Button>
+                          <div className="font-medium">NFT Platform Z Partnership</div>
+                          <div className="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs">Proposed</div>
                         </div>
                       </div>
                     </CardContent>
                   </Card>
-                </TabsContent>
+                </div>
                 
-                <TabsContent value="partnerships">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Active Partnerships</CardTitle>
-                      <CardDescription>Manage your ongoing blockchain partnerships</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-6">
-                        {partnershipSuggestions.map((suggestion) => (
-                          <PartnershipSuggestion
-                            key={suggestion.id}
-                            suggestion={suggestion}
-                            onAccept={handleAccept}
-                            onDecline={handleDecline}
-                          />
-                        ))}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center justify-between">
+                      <span>Recent Documents</span>
+                      <FileText className="h-5 w-5 text-blockchain-500" />
+                    </CardTitle>
+                    <CardDescription>Recently created or updated partnership documents</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between pb-2 border-b">
+                        <div className="flex items-center">
+                          <div className="h-10 w-10 bg-blockchain-100 rounded-md flex items-center justify-center mr-3">
+                            <FileText className="h-5 w-5 text-blockchain-500" />
+                          </div>
+                          <div>
+                            <div className="font-medium">Protocol X Agreement</div>
+                            <div className="text-xs text-muted-foreground">Updated 2 days ago</div>
+                          </div>
+                        </div>
+                        <Button variant="ghost" size="sm">View</Button>
                       </div>
-                    </CardContent>
-                  </Card>
-                </TabsContent>
-              </Tabs>
+                      
+                      <div className="flex items-center justify-between pb-2 border-b">
+                        <div className="flex items-center">
+                          <div className="h-10 w-10 bg-blockchain-100 rounded-md flex items-center justify-center mr-3">
+                            <FileText className="h-5 w-5 text-blockchain-500" />
+                          </div>
+                          <div>
+                            <div className="font-medium">Revenue Split Model</div>
+                            <div className="text-xs text-muted-foreground">Updated 1 week ago</div>
+                          </div>
+                        </div>
+                        <Button variant="ghost" size="sm">View</Button>
+                      </div>
+                      
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center">
+                          <div className="h-10 w-10 bg-blockchain-100 rounded-md flex items-center justify-center mr-3">
+                            <FileText className="h-5 w-5 text-blockchain-500" />
+                          </div>
+                          <div>
+                            <div className="font-medium">Partnership Proposal</div>
+                            <div className="text-xs text-muted-foreground">Created 2 weeks ago</div>
+                          </div>
+                        </div>
+                        <Button variant="ghost" size="sm">View</Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+              
+              <TabsContent value="partnerships">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Active Partnerships</CardTitle>
+                    <CardDescription>Manage your ongoing blockchain partnerships</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-6">
+                      {partnershipSuggestions.map((suggestion) => (
+                        <PartnershipSuggestion
+                          key={suggestion.id}
+                          suggestion={suggestion}
+                          onAccept={handleAccept}
+                          onDecline={handleDecline}
+                        />
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            </Tabs>
+          </div>
+        </div>
+
+        {/* Coming Soon Overlay with Glassmorphism */}
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm">
+          <div className="mx-4 max-w-md rounded-2xl border border-white/20 bg-white/10 p-8 text-center shadow-2xl backdrop-blur-md">
+            <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-blockchain-400 to-blockchain-600 shadow-lg">
+              <svg
+                className="h-8 w-8 text-white animate-pulse"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                />
+              </svg>
+            </div>
+            <h2 className="mb-4 text-2xl font-bold text-white">Coming Soon</h2>
+            <p className="mb-6 text-white/80">
+              We're currently building the Dashboard with powerful tools to manage your blockchain partnerships. Check back soon!
+            </p>
+            <div className="flex justify-center">
+              <div className="h-2 w-24 overflow-hidden rounded-full bg-white/20">
+                <div className="h-full w-3/4 animate-pulse rounded-full bg-gradient-to-r from-blockchain-400 to-blockchain-600"></div>
+              </div>
             </div>
           </div>
         </div>
