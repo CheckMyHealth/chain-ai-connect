@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -254,8 +253,8 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Coming Soon Overlay with Glassmorphism */}
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm">
+        {/* Coming Soon Overlay positioned only over main content */}
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm">
           <div className="mx-4 max-w-md rounded-2xl border border-white/20 bg-white/10 p-8 text-center shadow-2xl backdrop-blur-md">
             <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-blockchain-400 to-blockchain-600 shadow-lg">
               <svg
