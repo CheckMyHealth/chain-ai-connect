@@ -1,6 +1,6 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { Session, User } from '@supabase/supabase-js';
+import { Session, User, Provider } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 import { Profile } from '@/types/database.types';
@@ -12,6 +12,7 @@ type AuthContextType = {
   profile: Profile | null;
   signInWithEmail: (email: string, password: string) => Promise<void>;
   signUpWithEmail: (email: string, password: string) => Promise<void>;
+  signInWithProvider: (provider: Provider) => Promise<void>;
   signOut: () => Promise<void>;
   loading: boolean;
   profileLoading: boolean;
@@ -111,6 +112,29 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const signInWithProvider = async (provider: Provider) => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider,
+        options: {
+          redirectTo: `${window.location.origin}/dashboard`
+        }
+      });
+
+      if (error) {
+        toast({
+          title: 'Sign in failed',
+          description: error.message,
+          variant: 'destructive'
+        });
+        throw error;
+      }
+    } catch (error) {
+      console.error('Provider sign in error:', error);
+      throw error;
+    }
+  };
+
   const signOut = async () => {
     try {
       await authService.signOut();
@@ -136,6 +160,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     profile,
     signInWithEmail,
     signUpWithEmail,
+    signInWithProvider,
     signOut,
     loading,
     profileLoading,

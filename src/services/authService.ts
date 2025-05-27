@@ -54,16 +54,16 @@ export const authService = {
   },
   
   async getProfile(): Promise<Profile | null> {
-    const user = await supabase.auth.getUser();
+    const { data: { user } } = await supabase.auth.getUser();
     
-    if (!user.data.user) {
+    if (!user) {
       return null;
     }
     
     const { data, error } = await supabase
       .from('profiles')
       .select('*')
-      .eq('id', user.data.user.id)
+      .eq('id', user.id)
       .single();
       
     if (error) {
@@ -75,9 +75,9 @@ export const authService = {
   },
   
   async updateProfile(profileData: Partial<Profile>) {
-    const user = await supabase.auth.getUser();
+    const { data: { user } } = await supabase.auth.getUser();
     
-    if (!user.data.user) {
+    if (!user) {
       throw new Error('User not authenticated');
     }
     
@@ -87,7 +87,7 @@ export const authService = {
         ...profileData,
         updated_at: new Date().toISOString()
       })
-      .eq('id', user.data.user.id)
+      .eq('id', user.id)
       .select()
       .single();
       
