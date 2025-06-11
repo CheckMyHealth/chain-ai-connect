@@ -53,6 +53,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, currentSession) => {
+        console.log('Auth state changed:', event, currentSession);
         setSession(currentSession);
         setUser(currentSession?.user ?? null);
         
@@ -114,10 +115,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signInWithProvider = async (provider: Provider) => {
     try {
+      // Use the current origin for redirect
+      const redirectTo = `${window.location.origin}/dashboard`;
+      
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${window.location.origin}/dashboard`
+          redirectTo
         }
       });
 
